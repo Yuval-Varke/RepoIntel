@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RepoIntel — AI-Powered GitHub Repository Intelligence</title>
+  <meta name="description"
+    content="Transform any GitHub repository into a comprehensive AI-powered intelligence report with architecture insights, quality scores, and actionable recommendations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#f97316", // Warm orange
+            "background-dark": "#0a0a0a",
+            zinc: {
+              950: "#09090b",
+              900: "#18181b",
+              800: "#27272a",
+              700: "#3f3f46",
+              400: "#a1a1aa",
+              200: "#e4e4e7"
+            }
+          },
+          fontFamily: {
+            display: ["Crimson Pro", "serif"],
+            serif: ["Instrument Serif", "serif"],
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .paper-texture {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-panel {
+      background: rgba(24, 24, 27, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(63, 63, 70, 0.3);
+    }
+
+    .editorial-title {
+      font-family: 'Crimson Pro', serif;
+      letter-spacing: -0.02em;
+    }
+
+    .hand-drawn-arrow {
+      position: absolute;
+      width: 120px;
+      height: 60px;
+      left: 20%;
+      bottom: -80px;
+      transform: rotate(-10deg);
+      opacity: 0.6;
+      filter: invert(1);
+    }
+
+    .polaroid {
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .polaroid:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+      z-index: 50;
+    }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/landing.css" />
+  <link rel="stylesheet" href="/src/styles/loading.css" />
+  <link rel="stylesheet" href="/src/styles/dashboard.css" />
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
