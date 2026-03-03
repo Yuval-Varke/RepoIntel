@@ -167,6 +167,35 @@ export function renderDashboard(container, state) {
                 `).join('')}
               </div>
             </section>
+            
+            <!-- How to Run Locally -->
+            <section class="mt-20">
+              <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-green-500">terminal</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-zinc-100">How to Run Locally</h3>
+                  <p class="text-xs text-zinc-500">Quick start commands to get this running</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                ${(analysis.runInstructions || []).map((step, i) => `
+                  <div class="flex items-center gap-4 p-4 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-900/20 group hover:border-zinc-700 transition-all">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-800/50 flex items-center justify-center text-xs font-mono text-zinc-500 border border-zinc-700/50 group-hover:text-zinc-300 transition-colors">${i + 1}</div>
+                    <div class="flex-grow font-mono text-sm ${step.command ? 'text-zinc-300' : 'text-zinc-400 italic'} truncate">
+                      ${step.command || step.step}
+                    </div>
+                    ${step.command ? `
+                      <button class="flex-shrink-0 text-zinc-500 hover:text-white transition-colors p-1" onclick="navigator.clipboard.writeText('${step.command}')">
+                        <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                      </button>
+                    ` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </section>
           </div>
 
           <!-- Sidebar -->

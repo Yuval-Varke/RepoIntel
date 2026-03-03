@@ -10,7 +10,7 @@ export async function analyzeWithAI(repoData) {
 
     try {
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -131,14 +131,21 @@ Provide a JSON response with EXACTLY this structure:
   },
   "improvements": ["<5-8 specific, actionable improvement suggestions>"],
   "risks": ["<3-5 identified risks or concerns>"],
-  "highlights": ["<3-5 positive aspects of the project>"]
+  "highlights": ["<3-5 positive aspects of the project>"],
+  "runInstructions": [
+    {
+      "step": "<description of the step>",
+      "command": "<actual terminal command if applicable, or null>"
+    }
+  ]
 }
 
 IMPORTANT:
-- Be specific and reference actual files/patterns you see in the data
-- Scores should reflect genuine assessment, not generic values
 - The Mermaid diagram should use \`graph TD\` format and show actual project components
 - All arrays must have at least 2 items
+- Extract "runInstructions" for basic local setup: (1) git clone, (2) cd, (3) Installation (npm/pip install), (4) Running/Starting (npm start/python app.py).
+- Prioritize high-quality, executable commands over generic "ls" or documentation commands.
+- If specific commands aren't obvious in README, predict based on common language patterns (e.g., package.json -> npm install).
 - Return ONLY valid JSON, no markdown wrapping`;
 }
 
@@ -160,6 +167,7 @@ function validateAnalysis(analysis) {
         improvements: [],
         risks: [],
         highlights: [],
+        runInstructions: [],
     };
 
     if (analysis && analysis.scores && !analysis.scores.global) {
@@ -323,5 +331,32 @@ function generateFallbackAnalysis(repoData) {
             repoData.releases.length > 0 ? 'Regular releases published' : null,
             repoData.contributors.length > 3 ? `Active community (${repoData.contributors.length} contributors)` : null,
         ].filter(Boolean).slice(0, 5),
+        runInstructions: (() => {
+            const steps = [
+                { step: 'Clone the repository', command: `git clone https://github.com/${repoData.metadata.fullName}.git` },
+                { step: 'Navigate to directory', command: `cd ${repoData.metadata.name}` }
+            ];
+
+            // Installation step
+            if (repoData.dependencyFiles['package.json']) {
+                steps.push({ step: 'Install dependencies', command: 'npm install' });
+                steps.push({ step: 'Launch project', command: 'npm start' });
+            } else if (repoData.dependencyFiles['requirements.txt'] || repoData.dependencyFiles['setup.py']) {
+                steps.push({ step: 'Initialize environment', command: 'pip install -r requirements.txt' });
+                steps.push({ step: 'Run application', command: primaryLang.toLowerCase() === 'python' ? `python main.py` : null });
+            } else if (repoData.dependencyFiles['go.mod']) {
+                steps.push({ step: 'Download modules', command: 'go mod download' });
+                steps.push({ step: 'Build and run', command: 'go run .' });
+            } else if (repoData.dependencyFiles['Gemfile']) {
+                steps.push({ step: 'Install gems', command: 'bundle install' });
+            } else if (repoData.dependencyFiles['pom.xml'] || repoData.dependencyFiles['build.gradle']) {
+                steps.push({ step: 'Compile project', command: repoData.dependencyFiles['pom.xml'] ? 'mvn install' : './gradlew build' });
+            } else {
+                steps.push({ step: 'Check project setup', command: 'ls -F' });
+                steps.push({ step: 'Review documentation', command: 'cat README.md | head -n 20' });
+            }
+
+            return steps;
+        })()
     };
 }
