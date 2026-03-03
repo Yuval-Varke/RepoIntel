@@ -87,12 +87,33 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
+
     .pulse {
       animation: pulse 0.3s ease-in-out;
+    }
+
+    summary.list-none {
+      list-style: none;
+    }
+
+    summary.list-none::-webkit-details-marker {
+      display: none;
+    }
+
+    .tree-folder>div {
+      border-left: 1px solid rgba(63, 63, 70, 0.3);
     }
   </style>
   <link rel="stylesheet" href="/src/styles/global.css" />

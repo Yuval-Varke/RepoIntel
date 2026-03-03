@@ -10,7 +10,7 @@ export async function analyzeWithAI(repoData) {
 
     try {
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -285,6 +285,8 @@ function generateFallbackAnalysis(repoData) {
             description: `A ${primaryLang} project organized with ${repoData.folderStructure.length} top-level directories.`,
             components,
         },
+        deepDive: `This ${primaryLang} codebase is structured around ${components.join(' and ')} layers. The project maintains a clean separation of concerns with ${repoData.fileCount} files distributed across ${repoData.folderStructure.length} directories, suggesting a scalable foundation.`,
+        keyInsight: `A robust ${primaryLang} architecture that leverages ${techStack.primary.join(', ') || 'standard patterns'} to ensure long-term architectural integrity.`,
         mermaidDiagram: mermaid,
         insights: {
             maintainability: [

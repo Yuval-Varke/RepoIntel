@@ -68,8 +68,12 @@ export function renderDashboard(container, state) {
               <h1 class="editorial-title text-6xl lg:text-8xl font-medium text-zinc-100 dark:text-zinc-50 mb-6 leading-[0.9]">
                 ${meta.name}
               </h1>
-              <p class="font-mono text-zinc-500 dark:text-zinc-400 text-lg">
-                @${meta.owner || d.repository?.owner || 'unknown'} / <span class="text-zinc-400 dark:text-zinc-600">${meta.description || 'No description provided.'}</span>
+              <p class="font-mono text-zinc-500 dark:text-zinc-400 text-lg flex items-center gap-2 flex-wrap">
+                <a href="${meta.htmlUrl || `https://github.com/${meta.fullName}`}" target="_blank" class="hover:text-primary transition-colors inline-flex items-center gap-1 group">
+                  @${meta.owner || d.repository?.owner || 'unknown'}
+                  <span class="text-zinc-600 group-hover:text-primary transition-colors">/</span>
+                </a>
+                <span class="text-zinc-400 dark:text-zinc-600">${meta.description || 'No description provided.'}</span>
               </p>
             </div>
             <div class="flex flex-wrap gap-2 lg:mb-2">
@@ -170,13 +174,18 @@ export function renderDashboard(container, state) {
             
             <!-- How to Run Locally -->
             <section class="mt-20">
-              <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-                  <span class="material-symbols-outlined text-green-500">terminal</span>
+              <div class="flex items-center gap-4 mb-8">
+                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Deployment Guide</span>
+                <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+              </div>
+              
+              <div class="flex items-center gap-4 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary">terminal</span>
                 </div>
                 <div>
-                  <h3 class="font-medium text-zinc-100">How to Run Locally</h3>
-                  <p class="text-xs text-zinc-500">Quick start commands to get this running</p>
+                  <h2 class="editorial-title text-4xl italic">How to Run Locally</h2>
+                  <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">Quick start commands for local setup</p>
                 </div>
               </div>
               
@@ -195,6 +204,128 @@ export function renderDashboard(container, state) {
                     ` : ''}
                   </div>
                 `).join('')}
+              </div>
+            </section>
+
+            <!-- Repository Structure -->
+            <section class="mt-32">
+              <div class="flex items-center gap-4 mb-10">
+                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Asset Inventory</span>
+                <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+              </div>
+              
+              <h2 class="editorial-title text-4xl mb-12 italic">Repository Structure</h2>
+
+              <div class="glass-panel rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+                <!-- Header Component -->
+                <div class="p-8 border-b border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-900/10">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow-inner">
+                      <span class="material-symbols-outlined text-zinc-400">folder_zip</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2 mb-1">
+                        <h3 class="font-display text-xl font-bold text-zinc-100">File Structure</h3>
+                        <span class="px-2 py-0.5 rounded-full bg-zinc-800 text-[10px] font-mono text-zinc-400 flex items-center gap-1">
+                          <span class="material-symbols-outlined text-[10px]">terminal</span> ${meta.defaultBranch || 'main'}
+                        </span>
+                      </div>
+                      <p class="text-[11px] font-mono text-zinc-500 uppercase tracking-widest">
+                        ${d.repoData.fileCount} Files • ${d.repoData.folderStructure.length} Folders
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-primary transition-colors">search</span>
+                    <input id="tree-search" type="text" placeholder="Search files and folders..." class="bg-zinc-900/40 border-zinc-800 rounded-2xl pl-12 pr-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:border-primary w-full md:w-80 text-zinc-300 placeholder-zinc-600 transition-all"/>
+                  </div>
+                </div>
+
+                <!-- Language Tags -->
+                <div class="px-8 py-4 bg-zinc-900/5 flex flex-wrap gap-2 border-b border-zinc-800/50">
+                  ${langs.slice(0, 5).map(([name]) => `
+                    <span class="px-2 py-1 rounded-md bg-zinc-900/40 border border-zinc-800 text-[10px] font-mono text-zinc-500 flex items-center gap-1.5 hover:text-zinc-300 pointer-events-none transition-colors">
+                      <span class="h-1 w-1 rounded-full bg-primary/40"></span> ${name}
+                    </span>
+                  `).join('')}
+                </div>
+
+                <!-- Tree View Container -->
+                <div class="p-8 max-h-[600px] overflow-y-auto custom-scrollbar">
+                  <div id="tree-container" class="space-y-0.5">
+                    ${(() => {
+      const buildTree = (files) => {
+        const root = {};
+        files.forEach(path => {
+          const parts = path.split('/');
+          let current = root;
+          parts.forEach((part, i) => {
+            if (!current[part]) {
+              current[part] = (i === parts.length - 1) ? null : {};
+            }
+            current = current[part];
+          });
+        });
+        return root;
+      };
+
+      const renderNode = (node, name, depth = 0) => {
+        const isFolder = node !== null;
+
+        if (isFolder) {
+          const children = Object.entries(node).sort((a, b) => {
+            const aFolder = a[1] !== null;
+            const bFolder = b[1] !== null;
+            if (aFolder && !bFolder) return -1;
+            if (!aFolder && bFolder) return 1;
+            return a[0].localeCompare(b[0]);
+          });
+
+          return `
+            <details open class="tree-folder group/folder">
+              <summary class="tree-row list-none flex items-center gap-2 py-1.5 hover:bg-white/5 px-2 rounded-lg transition-all cursor-pointer group" data-name="${name.toLowerCase()}" data-type="folder" style="padding-left: ${depth * 20 + 8}px">
+                <span class="material-symbols-outlined text-[16px] text-zinc-600 transition-transform group-open:rotate-180">expand_more</span>
+                <span class="material-symbols-outlined text-primary/80 group-hover:text-primary text-xl transition-colors">folder</span>
+                <span class="text-sm font-medium text-zinc-200 group-hover:text-white">${name}</span>
+                <span class="ml-auto text-[10px] font-mono text-zinc-600 group-hover:text-zinc-400 transition-colors uppercase tracking-tight">${children.length} items</span>
+              </summary>
+              <div class="border-l border-zinc-200/5 dark:border-zinc-800/30 ml-[23px] my-0.5">
+                ${children.map(([childName, childNode]) => renderNode(childNode, childName, depth + 1)).join('')}
+              </div>
+            </details>
+          `;
+        } else {
+          return `
+            <div class="tree-row flex items-center gap-2 py-1.5 hover:bg-white/5 px-2 rounded-lg transition-all cursor-default group" data-name="${name.toLowerCase()}" data-type="file" style="padding-left: ${depth * 20 + 28}px">
+              <span class="material-symbols-outlined text-zinc-500 group-hover:text-zinc-300 text-lg transition-colors">description</span>
+              <span class="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">${name}</span>
+              <span class="ml-auto text-[9px] font-mono text-zinc-700 uppercase tracking-tighter">indexed</span>
+            </div>
+          `;
+        }
+      };
+
+      const tree = buildTree(d.repoData.fileStructure.slice(0, 50)); // Limit to first 50 for performance
+      return Object.entries(tree).sort((a, b) => {
+        const aFolder = a[1] !== null;
+        const bFolder = b[1] !== null;
+        if (aFolder && !bFolder) return -1;
+        if (!aFolder && bFolder) return 1;
+        return a[0].localeCompare(b[0]);
+      }).map(([name, node]) => renderNode(node, name)).join('');
+    })()}
+                  </div>
+                </div>
+
+                <!-- Footer Stats -->
+                <div class="px-8 py-4 bg-zinc-900 border-t border-zinc-800 flex items-center justify-between">
+                   <div class="flex items-center gap-2">
+                     <span class="h-1.5 w-1.5 rounded-full bg-primary/60 animate-pulse"></span>
+                     <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">${d.repoData.fileCount} files indexed in analysis</span>
+                   </div>
+                   <span class="text-[10px] font-mono text-zinc-600 uppercase">Snapshot v1.0</span>
+                </div>
               </div>
             </section>
           </div>
@@ -279,6 +410,27 @@ export function renderDashboard(container, state) {
   document.getElementById('logo-home')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('back-home-nav')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('export-pdf-top')?.addEventListener('click', () => exportAsPDF(d));
+
+  // Tree Search Filter
+  const treeSearch = document.getElementById('tree-search');
+  const treeRows = document.querySelectorAll('.tree-row');
+
+  treeSearch?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    treeRows.forEach(row => {
+      const name = row.getAttribute('data-name');
+      const target = row.closest('.tree-folder') || row;
+
+      if (name.includes(query)) {
+        target.classList.remove('hidden');
+        if (target !== row) row.classList.remove('hidden');
+      } else {
+        // If it's a folder, we only hide the folder if NONE of its children match
+        // But for simplicity of this filter, we'll just hide the row/folder
+        target.classList.add('hidden');
+      }
+    });
+  });
 
 
 

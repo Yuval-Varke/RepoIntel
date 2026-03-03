@@ -133,6 +133,7 @@ export async function fetchRepoData(owner, repo) {
             archived: metadata.archived,
             visibility: metadata.visibility || 'public',
             owner: metadata.owner.login,
+            htmlUrl: metadata.html_url,
         },
         languages: languageDistribution,
         fileCount: fileStructure.length,
