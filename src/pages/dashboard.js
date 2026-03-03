@@ -316,6 +316,10 @@ export function renderDashboard(container, state) {
       }).map(([name, node]) => renderNode(node, name)).join('');
     })()}
                   </div>
+                  <div id="tree-empty" class="hidden py-20 text-center">
+                    <span class="material-symbols-outlined text-zinc-800 text-5xl mb-4">search_off</span>
+                    <p class="text-zinc-600 text-xs font-mono uppercase tracking-[0.2em]">No matching files found</p>
+                  </div>
                 </div>
 
                 <!-- Footer Stats -->
@@ -413,23 +417,60 @@ export function renderDashboard(container, state) {
 
   // Tree Search Filter
   const treeSearch = document.getElementById('tree-search');
-  const treeRows = document.querySelectorAll('.tree-row');
+  const treeContainer = document.getElementById('tree-container');
 
   treeSearch?.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase().trim();
-    treeRows.forEach(row => {
-      const name = row.getAttribute('data-name');
-      const target = row.closest('.tree-folder') || row;
+    const allRows = treeContainer.querySelectorAll('.tree-row');
+    const allFolders = treeContainer.querySelectorAll('.tree-folder');
 
+    const emptyState = document.getElementById('tree-empty');
+
+    if (!query) {
+      allRows.forEach(r => r.classList.remove('hidden'));
+      allFolders.forEach(f => f.classList.remove('hidden'));
+      if (emptyState) emptyState.classList.add('hidden');
+      return;
+    }
+
+    // Hide everything
+    allRows.forEach(r => r.classList.add('hidden'));
+    allFolders.forEach(f => f.classList.add('hidden'));
+
+    let matchedCount = 0;
+    allRows.forEach(row => {
+      const name = row.getAttribute('data-name') || '';
       if (name.includes(query)) {
-        target.classList.remove('hidden');
-        if (target !== row) row.classList.remove('hidden');
-      } else {
-        // If it's a folder, we only hide the folder if NONE of its children match
-        // But for simplicity of this filter, we'll just hide the row/folder
-        target.classList.add('hidden');
+        matchedCount++;
+        row.classList.remove('hidden');
+
+        // If folder name matches, show all its contents
+        const hostFolder = row.closest('details.tree-folder');
+        if (hostFolder && row.tagName === 'SUMMARY') {
+          hostFolder.classList.remove('hidden');
+          hostFolder.open = true;
+          hostFolder.querySelectorAll('.tree-row, .tree-folder').forEach(el => el.classList.remove('hidden'));
+        }
+
+        // Show and open all ancestors
+        let parent = row.parentElement;
+        while (parent && parent !== treeContainer) {
+          if (parent.classList.contains('tree-folder')) {
+            parent.classList.remove('hidden');
+            parent.open = true;
+            // Ensure the folder label (summary) is also visible
+            const summary = parent.querySelector('summary.tree-row');
+            if (summary) summary.classList.remove('hidden');
+          }
+          parent = parent.parentElement;
+        }
       }
     });
+
+    if (emptyState) {
+      if (matchedCount > 0) emptyState.classList.add('hidden');
+      else emptyState.classList.remove('hidden');
+    }
   });
 
 
