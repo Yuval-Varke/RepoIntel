@@ -188,7 +188,8 @@ export function renderDashboard(container, state) {
                       ${step.command || step.step}
                     </div>
                     ${step.command ? `
-                      <button class="flex-shrink-0 text-zinc-500 hover:text-white transition-colors p-1" onclick="navigator.clipboard.writeText('${step.command}')">
+                      <button class="flex-shrink-0 text-zinc-500 hover:text-white transition-colors p-1" 
+                        onclick="const btn = this; const icon = btn.querySelector('.material-symbols-outlined'); navigator.clipboard.writeText('${step.command.replace(/'/g, "\\'")}'); icon.innerText = 'check'; icon.classList.add('text-green-500'); btn.classList.add('pulse'); setTimeout(() => { icon.innerText = 'content_copy'; icon.classList.remove('text-green-500'); btn.classList.remove('pulse'); }, 2000);">
                         <span class="material-symbols-outlined text-[18px]">content_copy</span>
                       </button>
                     ` : ''}
