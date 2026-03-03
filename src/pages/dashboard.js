@@ -198,7 +198,8 @@ export function renderDashboard(container, state) {
                     </div>
                     ${step.command ? `
                       <button class="flex-shrink-0 text-zinc-500 hover:text-white transition-colors p-1" 
-                        onclick="const btn = this; const icon = btn.querySelector('.material-symbols-outlined'); navigator.clipboard.writeText('${step.command.replace(/'/g, "\\'")}'); icon.innerText = 'check'; icon.classList.add('text-green-500'); btn.classList.add('pulse'); setTimeout(() => { icon.innerText = 'content_copy'; icon.classList.remove('text-green-500'); btn.classList.remove('pulse'); }, 2000);">
+                        data-command="${step.command.replace(/"/g, '&quot;')}"
+                        onclick="const btn = this; const icon = btn.querySelector('.material-symbols-outlined'); navigator.clipboard.writeText(btn.getAttribute('data-command')); icon.innerText = 'check'; icon.classList.add('text-green-500'); btn.classList.add('pulse'); setTimeout(() => { icon.innerText = 'content_copy'; icon.classList.remove('text-green-500'); btn.classList.remove('pulse'); }, 2000);">
                         <span class="material-symbols-outlined text-[18px]">content_copy</span>
                       </button>
                     ` : ''}
