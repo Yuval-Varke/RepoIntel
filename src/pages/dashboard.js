@@ -11,8 +11,8 @@ export function renderDashboard(container, state) {
   const d = state.analysisData;
   if (!d || !d.repoData) {
     return container.innerHTML = `
-      <div class="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background-light dark:bg-zinc-950">
-        <h1 class="editorial-title text-4xl mb-4 text-zinc-100 dark:text-zinc-50">Something went wrong</h1>
+      <div class="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-zinc-950">
+        <h1 class="editorial-title text-4xl mb-4 text-zinc-50 dark:text-zinc-50">Something went wrong</h1>
         <p class="text-zinc-500 mb-8">Missing analysis data. Please try again.</p>
         <button class="bg-primary text-white px-8 py-3 rounded-xl font-bold" onclick="window.location.reload()">Return Home</button>
       </div>
@@ -69,7 +69,7 @@ export function renderDashboard(container, state) {
                 ${meta.name}
               </h1>
               <p class="font-mono text-zinc-500 dark:text-zinc-400 text-lg">
-                @${meta.owner} / <span class="text-zinc-400 dark:text-zinc-600">${meta.description || 'No description provided.'}</span>
+                @${meta.owner || d.repository?.owner || 'unknown'} / <span class="text-zinc-400 dark:text-zinc-600">${meta.description || 'No description provided.'}</span>
               </p>
             </div>
             <div class="flex flex-wrap gap-2 lg:mb-2">
@@ -125,9 +125,9 @@ export function renderDashboard(container, state) {
                   <div class="relative w-32 h-32 flex items-center justify-center mb-4">
                     <svg class="w-full h-full -rotate-90" viewBox="0 0 128 128">
                       <circle class="text-zinc-100 dark:text-zinc-800" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
-                      <circle class="text-primary transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="${364.4 - (364.4 * scores.global / 100)}" stroke-linecap="round" stroke-width="8"></circle>
+                      <circle class="text-primary transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="${364.4 - (364.4 * (scores.global || 0) / 100)}" stroke-linecap="round" stroke-width="8"></circle>
                     </svg>
-                    <span class="absolute text-3xl font-display font-bold text-zinc-100 dark:text-white">${scores.global}</span>
+                    <span class="absolute text-3xl font-display font-bold text-zinc-100 dark:text-white">${scores.global || '...'}</span>
                   </div>
                   <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Global Health Score</span>
                 </div>
@@ -193,29 +193,17 @@ export function renderDashboard(container, state) {
                     <div>
                       <div class="flex justify-between text-xs mb-1">
                         <span class="text-zinc-500">${name}</span>
-                        <span class="font-mono text-zinc-100 dark:text-zinc-300">${info.percent}%</span>
+                        <span class="font-mono text-zinc-100 dark:text-zinc-300">${info.percentage || info.percent || '0'}%</span>
                       </div>
                       <div class="h-0.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-                        <div class="h-full bg-zinc-900 dark:bg-zinc-200" style="width: ${info.percent}%"></div>
+                        <div class="h-full bg-zinc-900 dark:bg-zinc-200" style="width: ${info.percentage || info.percent || 0}%"></div>
                       </div>
                     </div>
                   `).join('')}
                 </div>
               </div>
             </div>
-
-            <!-- Promotion Card -->
-            <div class="p-8 rounded-3xl bg-primary text-white space-y-6 overflow-hidden relative group shadow-2xl shadow-primary/20">
-              <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-20 group-hover:scale-110 transition-transform duration-500">auto_awesome</span>
-              <h3 class="editorial-title text-3xl italic leading-[1]">Unlock deep forensics.</h3>
-              <p class="text-orange-100 text-sm leading-relaxed">
-                Get AI-powered refactor suggestions, security vulnerability mapping, and exportable technical reports.
-              </p>
-              <button class="w-full bg-white text-primary py-3 rounded-xl font-semibold text-sm hover:bg-orange-50 transition-colors">
-                Upgrade to Pro
-              </button>
-            </div>
-
+            
             <!-- Metadata List -->
             <div class="px-4">
               <h3 class="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-6">Discovery Data</h3>

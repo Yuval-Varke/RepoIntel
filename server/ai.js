@@ -145,7 +145,7 @@ IMPORTANT:
 function validateAnalysis(analysis) {
     // Ensure all required fields exist with defaults
     const defaults = {
-        scores: { quality: 50, security: 50, documentation: 50, maintainability: 50 },
+        scores: { quality: 50, security: 50, documentation: 50, maintainability: 50, global: 50 },
         scoreExplanations: {
             quality: 'Assessment based on code structure and practices.',
             security: 'Assessment based on dependencies and configuration.',
@@ -162,6 +162,10 @@ function validateAnalysis(analysis) {
         highlights: [],
     };
 
+    if (analysis && analysis.scores && !analysis.scores.global) {
+        const s = analysis.scores;
+        analysis.scores.global = Math.round((s.quality + s.security + s.documentation + s.maintainability) / 4);
+    }
     return { ...defaults, ...analysis };
 }
 
@@ -258,6 +262,7 @@ function generateFallbackAnalysis(repoData) {
             security: securityScore,
             documentation: docScore,
             maintainability: maintScore,
+            global: Math.round((qualityScore + securityScore + docScore + maintScore) / 4),
         },
         scoreExplanations: {
             quality: `${hasTests ? 'Tests detected. ' : 'No tests found. '}${hasCI ? 'CI/CD configured.' : 'No CI/CD detected.'}`,

@@ -132,6 +132,7 @@ export async function fetchRepoData(owner, repo) {
             hasPages: metadata.has_pages,
             archived: metadata.archived,
             visibility: metadata.visibility || 'public',
+            owner: metadata.owner.login,
         },
         languages: languageDistribution,
         fileCount: fileStructure.length,
