@@ -106,16 +106,16 @@ export function renderDashboard(container, state) {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 leading-relaxed text-zinc-600 dark:text-zinc-400 font-serif text-xl italic">
                   <p class="not-italic font-sans text-base text-zinc-800 dark:text-zinc-300">
                     <span class="text-6xl font-display mr-3 float-left text-primary leading-[1]">${(analysis.summary || 'T')[0]}</span>
-                    ${(analysis.summary || 'his repository represents a sophisticated organization of concerns.').slice(1)}
+                    ${(analysis.summary || 'A').slice(1)}
                   </p>
                   <p>
-                    ${analysis.deepDive || 'The codebase demonstrates a commitment to modularity. Each component appears to fulfill a specific role within the larger system ecosystem.'}
+                    ${analysis.deepDive}
                   </p>
                 </div>
                 <blockquote class="my-16 border-l-0 pl-0 relative">
                   <span class="material-symbols-outlined absolute -top-10 -left-4 text-6xl text-zinc-100 dark:text-zinc-100 -z-10 select-none">format_quote</span>
                   <p class="editorial-title text-3xl text-zinc-100 dark:text-zinc-100 italic leading-snug">
-                    "${analysis.keyInsight || 'A sophisticated project structure that prioritizes long-term maintainability and clear data flow protocols.'}"
+                    "${analysis.keyInsight}"
                   </p>
                   <cite class="text-sm font-mono text-zinc-500 not-italic">— RepoIntel AI Synthesis</cite>
                 </blockquote>

@@ -112,6 +112,8 @@ Provide a JSON response with EXACTLY this structure:
     "maintainability": "<1 sentence explaining the maintainability score>"
   },
   "summary": "<3-4 sentence overall project summary>",
+  "deepDive": "<2-3 sentence technical exploration of the codebase structure and engineering philosophy>",
+  "keyInsight": "<A single, powerful sentence capturing the essence of the project's technical identity>",
   "techStack": {
     "primary": ["<main frameworks/languages>"],
     "secondary": ["<supporting tools/libraries>"],
@@ -124,12 +126,14 @@ Provide a JSON response with EXACTLY this structure:
     "components": ["<key architectural components>"]
   },
   "mermaidDiagram": "<valid Mermaid diagram string showing the project architecture - use graph TD format>",
-  "insights": {
-    "maintainability": ["<3-5 specific maintainability observations>"],
-    "security": ["<3-5 specific security observations>"],
-    "architecture": ["<3-5 specific architecture observations>"],
-    "documentation": ["<3-5 specific documentation observations>"]
-  },
+  "observations": [
+    {
+      "title": "<short descriptive title>",
+      "content": "<1-2 sentence detailed finding>",
+      "type": "risk" | "info",
+      "priority": "High" | "Medium" | "Low"
+    }
+  ],
   "improvements": ["<5-8 specific, actionable improvement suggestions>"],
   "risks": ["<3-5 identified risks or concerns>"],
   "highlights": ["<3-5 positive aspects of the project>"],
@@ -161,10 +165,12 @@ function validateAnalysis(analysis) {
             maintainability: 'Assessment based on project organization and complexity.',
         },
         summary: 'Analysis completed.',
+        deepDive: 'A technical exploration of the codebase structure and engineering philosophy.',
+        keyInsight: 'A sophisticated project structure that prioritizes long-term maintainability.',
         techStack: { primary: [], secondary: [], devOps: [], testing: [] },
         architecture: { pattern: 'Unknown', description: 'Could not determine.', components: [] },
         mermaidDiagram: 'graph TD\n  A[Repository] --> B[Source Code]\n  A --> C[Configuration]\n  A --> D[Documentation]',
-        insights: { maintainability: [], security: [], architecture: [], documentation: [] },
+        observations: [],
         improvements: [],
         risks: [],
         highlights: [],
@@ -265,6 +271,39 @@ function generateFallbackAnalysis(repoData) {
         mermaid += `  A --> ${String.fromCharCode(67 + i)}[${c}]\n`;
     });
 
+    // Build observations
+    const observations = [
+        {
+            title: 'Project Composition',
+            content: `A ${primaryLang} project with a focus on ${repoData.folderStructure[0] || 'core modules'}.`,
+            type: 'info',
+            priority: 'Medium'
+        },
+        ...(hasTests ? [{
+            title: 'Quality Assurance',
+            content: 'Active test suite detected, promoting architectural stability.',
+            type: 'info',
+            priority: 'Medium'
+        }] : [{
+            title: 'Reliability Risk',
+            content: 'No comprehensive test suite detected; higher risk of regressions.',
+            type: 'risk',
+            priority: 'High'
+        }]),
+        ...(hasCI ? [{
+            title: 'Automation Workflow',
+            content: 'CI/CD pipelines are configured for automated delivery.',
+            type: 'info',
+            priority: 'Low'
+        }] : []),
+        ...(repoData.metadata.archived ? [{
+            title: 'Lifecycle Status',
+            content: 'Repository is archived and no longer receiving updates.',
+            type: 'risk',
+            priority: 'High'
+        }] : [])
+    ];
+
     return {
         scores: {
             quality: qualityScore,
@@ -289,28 +328,7 @@ function generateFallbackAnalysis(repoData) {
         deepDive: `This ${primaryLang} codebase is structured around ${components.join(' and ')} layers. The project maintains a clean separation of concerns with ${repoData.fileCount} files distributed across ${repoData.folderStructure.length} directories, suggesting a scalable foundation.`,
         keyInsight: `A robust ${primaryLang} architecture that leverages ${techStack.primary.join(', ') || 'standard patterns'} to ensure long-term architectural integrity.`,
         mermaidDiagram: mermaid,
-        insights: {
-            maintainability: [
-                hasTests ? 'Test suite detected, improving reliability' : 'No test suite detected',
-                `${repoData.contributors.length} contributors found`,
-                `${repoData.recentCommitCount} commits in recent activity`,
-            ],
-            security: [
-                `License: ${repoData.metadata.license}`,
-                `${depCount} dependency files found`,
-                hasCI ? 'CI/CD pipeline configured' : 'No CI/CD pipeline detected',
-            ],
-            architecture: [
-                `Primary language: ${primaryLang}`,
-                `${repoData.folderStructure.length} directories in structure`,
-                `${repoData.configFiles.length} configuration files detected`,
-            ],
-            documentation: [
-                hasReadme ? 'README file present' : 'No README file found',
-                repoData.metadata.description ? 'Repository description set' : 'Missing repository description',
-                `${repoData.releases.length} releases published`,
-            ],
-        },
+        observations,
         improvements: [
             ...(!hasTests ? ['Add a test suite for better code reliability'] : []),
             ...(!hasCI ? ['Set up CI/CD pipeline with GitHub Actions'] : []),
