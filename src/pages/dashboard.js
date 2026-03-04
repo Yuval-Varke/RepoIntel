@@ -45,7 +45,7 @@ export function renderDashboard(container, state) {
             </div>
             <div class="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
             <div class="flex items-center gap-3">
-              <button id="back-home-nav" class="bg-zinc-100 text-zinc-100 px-4 py-1.5 rounded text-sm font-medium hover:opacity-90 transition-opacity">
+              <button id="back-home-nav" class="bg-primary text-white px-4 py-1.5 rounded text-sm font-medium hover:opacity-90 transition-opacity">
                 Analyze New
               </button>
             </div>
@@ -402,7 +402,7 @@ export function renderDashboard(container, state) {
           <h4 class="editorial-title text-3xl mb-8 dark:text-white italic">Analyze another repository?</h4>
           <div class="max-w-xl mx-auto flex gap-4">
             <input id="footer-repo-input" class="flex-grow bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-primary focus:border-primary text-zinc-100 dark:text-white" placeholder="https://github.com/..." type="text"/>
-            <button id="footer-analyze-btn" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-100 px-8 py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-opacity">Analyze</button>
+            <button id="footer-analyze-btn" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-8 py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-opacity">Analyze</button>
           </div>
           <p class="mt-12 text-zinc-400 text-xs font-mono tracking-widest uppercase">RepoIntel © 2024 — Hand-crafted for code clarity.</p>
         </footer>
