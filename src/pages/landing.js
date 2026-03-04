@@ -6,8 +6,15 @@ export function renderLanding(container, state) {
       <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span class="material-symbols-outlined text-white text-xl">folder_managed</span>
+            <div class="w-8 h-8 flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="10" fill="#f97316"/>
+                <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="28" cy="12" r="3.5" fill="white">
+                  <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite" />
+                </circle>
+              </svg>
             </div>
             <span class="font-serif italic text-2xl tracking-tight text-white">RepoIntel</span>
           </div>
@@ -84,52 +91,6 @@ export function renderLanding(container, state) {
             </div>
           </div>
         </section>
-
-        <section class="max-w-7xl mx-auto mt-40 relative h-[450px]">
-          <h2 class="text-center font-mono text-[10px] uppercase tracking-[0.4em] text-slate-500 mb-20">Voices from the field</h2>
-          
-          <div class="polaroid absolute top-10 left-[5%] md:left-[10%] glass p-4 pb-12 w-64 -rotate-3 bg-white/[0.03] shadow-xl border-white/10">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white text-xs font-bold">MK</div>
-              <div>
-                <div class="text-sm font-bold flex items-center gap-1">
-                  Manish Kumar
-                  <span class="material-symbols-outlined text-sky-400 text-sm">verified</span>
-                </div>
-                <div class="text-[10px] font-mono text-slate-500">@manixh02</div>
-              </div>
-            </div>
-            <p class="text-sm leading-relaxed italic text-slate-400">"Damn bro, I actually understand what my legacy code is doing now."</p>
-          </div>
-
-          <div class="polaroid absolute top-0 right-[5%] md:right-[15%] glass p-4 pb-12 w-72 rotate-6 bg-white/[0.03] shadow-xl border-white/10">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-xs text-white">O</div>
-              <div>
-                <div class="text-sm font-bold flex items-center gap-1 text-white">
-                  Ossium Inc.
-                  <span class="material-symbols-outlined text-orange-400 text-sm">verified_user</span>
-                </div>
-                <div class="text-[10px] font-mono text-slate-500">@ossium_inc</div>
-              </div>
-            </div>
-            <p class="text-sm leading-relaxed text-slate-400">"Welcome to the family. RepoIntel is the future of developer onboarding."</p>
-          </div>
-
-          <div class="polaroid absolute bottom-0 left-1/2 -translate-x-1/2 glass p-4 pb-12 w-64 -rotate-1 bg-white/[0.03] shadow-xl border-white/10">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center">
-                <span class="material-symbols-outlined text-slate-900 text-xl">coffee</span>
-              </div>
-              <div>
-                <div class="text-sm font-bold text-white">Buy Me A Coffee</div>
-                <div class="text-[10px] font-mono text-slate-500">@buymeacoffee</div>
-              </div>
-            </div>
-            <p class="text-sm leading-relaxed text-slate-400 font-mono">Wanna be here? <br/>Support the project!</p>
-          </div>
-        </section>
-
         <section class="max-w-5xl mx-auto mt-32">
           <div class="grid md:grid-cols-3 gap-12">
             <div class="group cursor-default">
@@ -154,9 +115,11 @@ export function renderLanding(container, state) {
       <footer class="relative z-10 border-t border-white/5 py-12 px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div class="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-            <div class="w-6 h-6 bg-slate-400 rounded flex items-center justify-center">
-              <span class="material-symbols-outlined text-white text-xs">folder_managed</span>
-            </div>
+            <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="10" fill="#f97316"/>
+              <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
             <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
           </div>
           <div class="text-slate-500 font-mono text-[10px] tracking-widest uppercase">

@@ -6,8 +6,15 @@ export function renderLoading(container, state) {
       <div class="relative z-10 max-w-lg w-full text-center space-y-12">
         <!-- Brand/Icon -->
         <div class="flex flex-col items-center animate-pulse">
-          <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/20 mb-6">
-            <span class="material-symbols-outlined text-white text-3xl">auto_awesome</span>
+          <div class="w-16 h-16 flex items-center justify-center mb-6">
+            <svg width="60" height="60" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="10" fill="#f97316"/>
+              <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="28" cy="12" r="3.5" fill="white">
+                <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite" />
+              </circle>
+            </svg>
           </div>
           <span class="font-display italic text-2xl tracking-tight text-slate-900 dark:text-white">RepoIntel Intelligence</span>
         </div>
