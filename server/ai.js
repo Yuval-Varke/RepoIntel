@@ -134,7 +134,15 @@ Provide a JSON response with EXACTLY this structure:
       "priority": "High" | "Medium" | "Low"
     }
   ],
-  "improvements": ["<5-8 specific, actionable improvement suggestions>"],
+  "recommendations": [
+    {
+      "title": "<short descriptive title>",
+      "description": "<1-2 sentence detailed explanation of the task>",
+      "type": "issue" | "automation" | "refactor",
+      "priority": "High" | "Medium" | "Low",
+      "category": "Documentation" | "Technical Debt" | "Security" | "Testing" | "Infrastructure"
+    }
+  ],
   "risks": ["<3-5 identified risks or concerns>"],
   "highlights": ["<3-5 positive aspects of the project>"],
   "runInstructions": [
@@ -171,7 +179,7 @@ function validateAnalysis(analysis) {
         architecture: { pattern: 'Unknown', description: 'Could not determine.', components: [] },
         mermaidDiagram: 'graph TD\n  A[Repository] --> B[Source Code]\n  A --> C[Configuration]\n  A --> D[Documentation]',
         observations: [],
-        improvements: [],
+        recommendations: [],
         risks: [],
         highlights: [],
         runInstructions: [],
@@ -329,15 +337,50 @@ function generateFallbackAnalysis(repoData) {
         keyInsight: `A robust ${primaryLang} architecture that leverages ${techStack.primary.join(', ') || 'standard patterns'} to ensure long-term architectural integrity.`,
         mermaidDiagram: mermaid,
         observations,
-        improvements: [
-            ...(!hasTests ? ['Add a test suite for better code reliability'] : []),
-            ...(!hasCI ? ['Set up CI/CD pipeline with GitHub Actions'] : []),
-            ...(!hasReadme ? ['Add a comprehensive README with setup instructions'] : []),
-            ...(!hasLicense ? ['Add a license to clarify usage rights'] : []),
-            ...(!hasDocker ? ['Consider containerization with Docker'] : []),
-            'Add contributing guidelines for better collaboration',
-            'Consider adding code quality badges to README',
-        ].slice(0, 7),
+        recommendations: [
+            ...(!hasTests ? [{
+                title: 'Implement Testing Suite',
+                description: 'The project currently lacks automated tests. Adding a test framework (like Jest or PyTest) will prevent regressions and improve maintainability.',
+                type: 'issue',
+                priority: 'High',
+                category: 'Testing'
+            }] : []),
+            ...(!hasCI ? [{
+                title: 'Set up CI/CD Pipeline',
+                description: 'Automate your build and test process using GitHub Actions to ensure code quality on every push.',
+                type: 'automation',
+                priority: 'Medium',
+                category: 'Infrastructure'
+            }] : []),
+            ...(!hasReadme ? [{
+                title: 'Draft Comprehensive README',
+                description: 'Clear documentation is essential for developer onboarding. Add usage guides, setup steps, and a project overview.',
+                type: 'issue',
+                priority: 'High',
+                category: 'Documentation'
+            }] : []),
+            ...(!hasLicense ? [{
+                title: 'Add Project License',
+                description: 'A LICENSE file is missing. Adding one (like MIT or Apache) clarifies usage rights for contributors.',
+                type: 'issue',
+                priority: 'Medium',
+                category: 'Legal'
+            }] : []),
+            ...(!hasDocker ? [{
+                title: 'Containerize with Docker',
+                description: 'Adding a Dockerfile and docker-compose.yml will simplify local setup and ensure environment consistency.',
+                type: 'automation',
+                priority: 'Low',
+                category: 'Infrastructure'
+            }] : []),
+            {
+                title: 'Refactor Core Logic',
+                description: 'Identify and simplify complex functions to improve code readability and reduce cognitive load.',
+                type: 'refactor',
+                priority: 'Medium',
+                category: 'Technical Debt'
+            }
+        ],
         risks: [
             ...(!hasLicense ? ['No license may deter contributors'] : []),
             ...(!hasTests ? ['Lack of tests increases regression risk'] : []),
