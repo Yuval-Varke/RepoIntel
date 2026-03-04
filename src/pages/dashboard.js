@@ -140,7 +140,7 @@ export function renderDashboard(container, state) {
                     </svg>
                     <span class="absolute text-3xl font-display font-bold text-zinc-100 dark:text-white">${scores.global || '...'}</span>
                   </div>
-                  <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Global Health Score</span>
+                  <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Repository Score</span>
                 </div>
                 <div class="md:col-span-2 grid grid-cols-2 gap-y-6 gap-x-12">
                   ${['quality', 'security', 'maintainability', 'documentation'].map(key => `
@@ -182,7 +182,7 @@ export function renderDashboard(container, state) {
             <!-- How to Run Locally -->
             <section class="mt-20">
               <div class="flex items-center gap-4 mb-8">
-                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Deployment Guide</span>
+                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Deployment Guide Section</span>
                 <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
               </div>
               
@@ -218,7 +218,7 @@ export function renderDashboard(container, state) {
             <!-- Repository Structure -->
             <section class="mt-32">
               <div class="flex items-center gap-4 mb-10">
-                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Asset Inventory</span>
+                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Asset Inventory Section</span>
                 <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
               </div>
               
@@ -340,6 +340,8 @@ export function renderDashboard(container, state) {
                 </div>
               </div>
             </section>
+
+            </section>
           </div>
 
           <!-- Sidebar -->
@@ -403,6 +405,49 @@ export function renderDashboard(container, state) {
             </div>
           </aside>
         </div>
+
+        <!-- Recommendations & Actions Section -->
+        <section class="mt-32">
+          <div class="flex items-center gap-4 mb-10">
+            <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">Issues Section</span>
+            <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+          </div>
+          
+          <h2 class="editorial-title text-4xl mb-12 italic">AI Recommended Issues</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="action-content">
+            ${analysis.recommendations.length > 0 ? analysis.recommendations.map(r => `
+              <div class="action-card group p-5 bg-zinc-900/40 border border-zinc-800/50 rounded-2xl hover:border-zinc-700 transition-all flex flex-col justify-between">
+                <div>
+                  <div class="flex gap-4 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center border border-zinc-800 shrink-0 shadow-inner group-hover:border-primary/30 transition-colors">
+                      <span class="material-symbols-outlined text-zinc-600 group-hover:text-primary transition-colors text-xl">
+                        ${r.category === 'Testing' ? 'science' : r.category === 'Documentation' ? 'description' : r.category === 'Technical Debt' ? 'architecture' : r.category === 'Infrastructure' ? 'hub' : 'settings'}
+                      </span>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                      <div class="flex items-center justify-between mb-0.5">
+                        <h4 class="font-display text-base font-bold text-zinc-100 group-hover:text-white transition-colors truncate">${r.title}</h4>
+                      </div>
+                      <p class="text-[11px] text-zinc-500 leading-snug group-hover:text-zinc-400 transition-colors line-clamp-2">${r.description}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="https://github.com/${meta.fullName}/issues/new?title=${encodeURIComponent(r.title)}&body=${encodeURIComponent(r.description + '\n\n---\n*Synthesis by RepoIntel AI Engine*')}" 
+                   target="_blank"
+                   class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 hover:bg-white hover:text-zinc-900 rounded-lg text-[9px] font-bold transition-all active:scale-95 shadow-lg shadow-black/20 mt-2">
+                  <span class="material-symbols-outlined text-[14px] font-bold">add</span>
+                  Create GitHub Issue
+                </a>
+              </div>
+            `).join('') : `
+              <div class="col-span-full py-20 text-center">
+                <p class="text-zinc-500 font-mono text-sm uppercase tracking-widest">No recommendations available</p>
+              </div>
+            `}
+          </div>
+        </section>
 
         <!-- Footer Footer -->
         <footer class="mt-32 pt-16 border-t border-zinc-200 dark:border-zinc-800 text-center">
@@ -487,7 +532,6 @@ export function renderDashboard(container, state) {
       else emptyState.classList.remove('hidden');
     }
   });
-
 
 
   const footerInput = document.getElementById('footer-repo-input');
