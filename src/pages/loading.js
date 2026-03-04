@@ -59,7 +59,7 @@ export function renderLoading(container, state) {
 
       <!-- Bottom Decoration -->
       <div class="absolute bottom-12 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.4em] text-zinc-400 opacity-50">
-        Bespoke Humans & AI Collaboration
+        RepoIntel
       </div>
 
       <!-- Accent Blurs -->

@@ -40,7 +40,7 @@ export function renderLanding(container, state) {
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Now acquired by Ossium Inc.
+              Developed by Yuval Varke
             </div>
             <h1 class="font-serif text-7xl md:text-8xl lg:text-9xl leading-[0.85] text-white mb-6">
               Understand <br/>
