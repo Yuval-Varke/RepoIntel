@@ -32,14 +32,7 @@ export function renderDashboard(container, state) {
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div class="flex items-center gap-2 cursor-pointer" id="logo-home">
             <div class="w-8 h-8 flex items-center justify-center">
-              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-                <rect width="40" height="40" rx="10" fill="#f97316"/>
-                <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="28" cy="12" r="3.5" fill="white">
-                  <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite" />
-                </circle>
-              </svg>
+              <img src="/logo_512x512.gif" class="w-8 h-8 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
             <span class="font-display text-xl font-semibold tracking-tight">RepoIntel</span>
           </div>
@@ -458,11 +451,7 @@ export function renderDashboard(container, state) {
           </div>
           <div class="mt-12 flex flex-col items-center gap-4">
             <p class="text-zinc-400 text-xs font-mono tracking-widest uppercase">RepoIntel</p>
-            <svg width="24" height="24" viewBox="0 0 40 40" fill="none" class="opacity-40">
-              <rect width="40" height="40" rx="10" fill="#f97316"/>
-              <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
-            </svg>
+            <img src="/logo_512x512.gif" class="w-6 h-6 opacity-40 mix-blend-lighten" alt="RepoIntel Logo" />
           </div>
         </footer>
       </main>

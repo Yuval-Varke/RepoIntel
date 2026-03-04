@@ -6,17 +6,10 @@ export function renderLanding(container, state) {
       <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-                <rect width="40" height="40" rx="10" fill="#f97316"/>
-                <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="28" cy="12" r="3.5" fill="white">
-                  <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite" />
-                </circle>
-              </svg>
+            <div class="w-12 h-12 flex items-center justify-center">
+              <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
-            <span class="font-serif italic text-2xl tracking-tight text-white">RepoIntel</span>
+            <span class="font-serif italic pl-2 text-2xl tracking-tight text-white">RepoIntel</span>
           </div>
           <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
             <a class="hover:text-primary transition-colors" href="#">Documentation</a>
@@ -115,15 +108,11 @@ export function renderLanding(container, state) {
       <footer class="relative z-10 border-t border-white/5 py-12 px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div class="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-            <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
-              <rect width="40" height="40" rx="10" fill="#f97316"/>
-              <path d="M12 28L12 12H20C23.3137 12 26 14.6863 26 18C26 21.3137 23.3137 24 20 24H12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M22 24L28 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
-            </svg>
+            <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
           </div>
           <div class="text-slate-500 font-mono text-[10px] tracking-widest uppercase">
-            © 2024 Crafted with care by bespoke humans
+            © 2026 Crafted by Yuval Varke
           </div>
           <div class="flex gap-6">
             <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">brand_awareness</span></a>
