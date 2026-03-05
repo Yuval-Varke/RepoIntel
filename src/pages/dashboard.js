@@ -28,13 +28,13 @@ export function renderDashboard(container, state) {
   container.innerHTML = `
     <div class="bg-zinc-950 text-zinc-100 dark:text-zinc-200 transition-colors duration-300 min-h-screen relative">
       <!-- Navigation -->
-      <nav class="sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-950/80 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
+        <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-2 cursor-pointer" id="logo-home">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <img src="/logo_512x512.gif" class="w-8 h-8 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+            <div class="w-12 h-12 flex items-center justify-center">
+              <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
-            <span class="font-display text-xl font-semibold tracking-tight">RepoIntel</span>
+            <span class="font-serif italic pl-2 text-2xl tracking-tight text-white">RepoIntel</span>
           </div>
           <div class="flex items-center gap-6">
             <div class="hidden md:flex items-center gap-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
@@ -45,7 +45,7 @@ export function renderDashboard(container, state) {
             </div>
             <div class="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
             <div class="flex items-center gap-3">
-              <button id="back-home-nav" class="bg-primary text-white px-4 py-1.5 rounded text-sm font-medium hover:opacity-90 transition-opacity">
+              <button id="back-home-nav" class="bg-primary text-white px-4 py-1.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
                 Analyze New
               </button>
             </div>
@@ -53,7 +53,7 @@ export function renderDashboard(container, state) {
         </div>
       </nav>
 
-      <main class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+      <main class="max-w-7xl mx-auto px-6 pt-32 pb-12 lg:pb-20">
         <!-- Header Section -->
         <header class="mb-16 lg:mb-24">
           <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
@@ -129,7 +129,7 @@ export function renderDashboard(container, state) {
                 <blockquote class="my-16 border-l-0 pl-0 relative">
                   <span class="material-symbols-outlined absolute -top-10 -left-4 text-6xl text-zinc-100 dark:text-zinc-100 -z-10 select-none">format_quote</span>
                   <p class="editorial-title text-3xl text-zinc-100 dark:text-zinc-100 italic leading-snug">
-                    "${analysis.keyInsight}"
+                    ${analysis.keyInsight}
                   </p>
                   <cite class="text-sm font-mono text-zinc-500 not-italic">— RepoIntel AI Synthesis</cite>
                 </blockquote>
