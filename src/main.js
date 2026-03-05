@@ -7,6 +7,7 @@ const state = {
   repoUrl: '',
   analysisData: null,
   error: null,
+  fromCache: false,
 };
 
 // API base URL
@@ -19,9 +20,26 @@ export function navigateTo(page, data = {}) {
 }
 
 // Analyze repository
-export async function analyzeRepo(repoUrl) {
+export async function analyzeRepo(repoUrl, refresh = false) {
   state.repoUrl = repoUrl;
-  navigateTo('loading');
+
+  // Check cache unless refresh is requested
+  if (!refresh) {
+    const cached = localStorage.getItem(`repointel_cache_${repoUrl}`);
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        console.log('Loading from cache:', repoUrl);
+        navigateTo('dashboard', { analysisData: data, fromCache: true });
+        return;
+      } catch (e) {
+        console.error('Failed to parse cache', e);
+        localStorage.removeItem(`repointel_cache_${repoUrl}`);
+      }
+    }
+  }
+
+  navigateTo('loading', { fromCache: false });
 
   try {
     const response = await fetch(`${API_URL}/api/analyze`, {
@@ -36,7 +54,10 @@ export async function analyzeRepo(repoUrl) {
       throw new Error(data.error || 'Analysis failed');
     }
 
-    navigateTo('dashboard', { analysisData: data });
+    // Save to cache
+    localStorage.setItem(`repointel_cache_${repoUrl}`, JSON.stringify(data));
+
+    navigateTo('dashboard', { analysisData: data, fromCache: false });
   } catch (error) {
     navigateTo('landing', { error: error.message });
   }
