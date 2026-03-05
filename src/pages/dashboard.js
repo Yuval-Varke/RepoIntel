@@ -76,18 +76,32 @@ export function renderDashboard(container, state) {
                 <span class="text-zinc-400 dark:text-zinc-600">${meta.description || 'No description provided.'}</span>
               </p>
             </div>
-            <div class="flex flex-wrap gap-2 lg:mb-2">
-              <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
-                <span class="material-symbols-outlined text-[16px] text-zinc-400">star</span>
-                <span class="text-xs font-semibold">${formatNum(meta.stars)}</span>
-              </div>
-              <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
-                <span class="material-symbols-outlined text-[16px] text-zinc-400">fork_right</span>
-                <span class="text-xs font-semibold">${formatNum(meta.forks)}</span>
-              </div>
-              <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
-                <span class="material-symbols-outlined text-[16px] text-zinc-400">visibility</span>
-                <span class="text-xs font-semibold">${formatNum(meta.watchers)}</span>
+            <div class="flex flex-col items-end gap-6 lg:mb-2">
+              ${state.fromCache ? `
+                <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-400 text-[10px] font-mono font-bold uppercase tracking-widest">
+                    <span class="material-symbols-outlined text-[14px] text-zinc-500">inventory_2</span>
+                    Loaded from cache
+                  </div>
+                  <button id="refresh-analysis" class="flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 group">
+                    <span class="material-symbols-outlined text-[14px] group-hover:rotate-180 transition-transform duration-500">sync</span>
+                    Refresh Analysis
+                  </button>
+                </div>
+              ` : ''}
+              <div class="flex flex-wrap gap-2">
+                <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
+                  <span class="material-symbols-outlined text-[16px] text-zinc-400">star</span>
+                  <span class="text-xs font-semibold">${formatNum(meta.stars)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
+                  <span class="material-symbols-outlined text-[16px] text-zinc-400">fork_right</span>
+                  <span class="text-xs font-semibold">${formatNum(meta.forks)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full">
+                  <span class="material-symbols-outlined text-[16px] text-zinc-400">visibility</span>
+                  <span class="text-xs font-semibold">${formatNum(meta.watchers)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -463,6 +477,11 @@ export function renderDashboard(container, state) {
   document.getElementById('logo-home')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('back-home-nav')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('export-pdf-top')?.addEventListener('click', () => exportAsPDF(d));
+
+  // Refresh analysis
+  document.getElementById('refresh-analysis')?.addEventListener('click', () => {
+    import('../main.js').then(m => m.analyzeRepo(state.repoUrl, true));
+  });
 
   // Tree Search Filter
   const treeSearch = document.getElementById('tree-search');
