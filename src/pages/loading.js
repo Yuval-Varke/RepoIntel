@@ -51,8 +51,9 @@ export function renderLoading(container, state) {
       </div>
 
       <!-- Bottom Decoration -->
-      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.4em] text-zinc-400 opacity-50">
-        RepoIntel
+      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50">
+        <span class="font-mono text-[20px] uppercase tracking-[0.4em] text-zinc-400">RepoIntel</span>
+        <span class="text-[12px] font-mono tracking-[0.25em] uppercase text-slate-300/70">From Repo to Results</span>
       </div>
 
       <!-- Accent Blurs -->
