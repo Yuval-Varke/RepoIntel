@@ -33,7 +33,7 @@ export function renderLanding(container, state) {
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Developed by Yuval Varke
+              From Repo to Results
             </div>
             <h1 class="font-serif text-7xl md:text-8xl lg:text-9xl leading-[0.85] text-white mb-6">
               Understand <br/>
@@ -66,7 +66,7 @@ export function renderLanding(container, state) {
                 </div>
                 <p id="hero-error" class="text-red-500 text-xs mt-2 ml-4 min-h-[18px]">${state.error || ''}</p>
                 <p class="mt-4 text-xs font-mono text-slate-500 text-center sm:text-left">
-                  Try: <span class="underline cursor-pointer hover:text-primary">mx-icons/repo</span> or <span class="underline cursor-pointer hover:text-primary">langchain/main</span>
+                  Try: <span class="underline cursor-pointer hover:text-primary">supabase/supabase</span> or <span class="underline cursor-pointer hover:text-primary">public-apis/public-apis</span>
                 </p>
               </div>
               <div class="grid grid-cols-2 gap-4">
@@ -112,7 +112,7 @@ export function renderLanding(container, state) {
             <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
           </div>
           <div class="text-slate-500 font-mono text-[10px] tracking-widest uppercase">
-            © 2026 Crafted by Yuval Varke
+            © 2026 - By Yuval Varke
           </div>
           <div class="flex gap-6">
             <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">brand_awareness</span></a>

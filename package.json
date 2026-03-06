@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently -k -n API,WEB -c blue,green \"node server/server.js\" \"vite\"",
+    "start": "concurrently -k -n API,WEB -c blue,green \"nodemon server/server.js\" \"vite\"",
     "dev": "vite",
     "server": "node server/server.js",
     "build": "vite build",
@@ -21,6 +21,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.0",
     "marked": "^17.0.3",
-    "mermaid": "^11.12.3"
+    "mermaid": "^11.12.3",
+    "nodemon": "^3.1.14"
   }
 }
