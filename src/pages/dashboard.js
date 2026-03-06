@@ -1,5 +1,6 @@
 import { exportAsPDF } from '../utils/export.js';
 import { navigateTo } from '../main.js';
+import { renderMermaid } from '../components/mermaid.js';
 
 function formatNum(n) {
   if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
@@ -188,6 +189,35 @@ export function renderDashboard(container, state) {
                 `).join('')}
               </div>
             </section>
+
+            <!-- Architecture Diagram -->
+            ${analysis.mermaidDiagram ? `
+            <section class="mt-20">
+              <div class="flex items-center gap-4 mb-8">
+                <span class="text-xs font-mono text-primary uppercase tracking-[0.2em]">System Architecture</span>
+                <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+              </div>
+
+              <div class="flex items-center gap-4 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary">schema</span>
+                </div>
+                <div>
+                  <h2 class="editorial-title text-4xl italic">Architecture Diagram</h2>
+                  <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">AI-generated project structure visualization</p>
+                </div>
+              </div>
+
+              <div class="glass-panel rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
+                <div class="p-6 flex items-center justify-center min-h-[300px]" id="mermaid-diagram">
+                  <div class="flex flex-col items-center gap-3 text-zinc-500">
+                    <span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
+                    <span class="text-xs font-mono">Rendering diagram...</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            ` : ''}
             
             <!-- How to Run Locally -->
             <section class="mt-20">
@@ -480,6 +510,13 @@ export function renderDashboard(container, state) {
   document.getElementById('logo-home')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('back-home-nav')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('export-pdf-top')?.addEventListener('click', () => exportAsPDF(d));
+
+  // Render Mermaid diagram
+  if (analysis.mermaidDiagram) {
+    setTimeout(() => {
+      renderMermaid('mermaid-diagram', analysis.mermaidDiagram);
+    }, 500);
+  }
 
   // Refresh analysis
   document.getElementById('refresh-analysis')?.addEventListener('click', () => {
