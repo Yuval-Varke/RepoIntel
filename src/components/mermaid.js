@@ -8,20 +8,20 @@ function initMermaid() {
         startOnLoad: false,
         theme: 'dark',
         themeVariables: {
-            primaryColor: '#6C5CE7',
+            primaryColor: '#f97316',
             primaryTextColor: '#F8FAFC',
-            primaryBorderColor: 'rgba(255,255,255,0.08)',
-            lineColor: '#94A3B8',
-            secondaryColor: '#161E2E',
-            tertiaryColor: '#121826',
-            background: '#121826',
-            mainBkg: '#161E2E',
-            nodeBorder: 'rgba(255,255,255,0.08)',
-            clusterBkg: '#121826',
+            primaryBorderColor: 'rgba(249,115,22,0.3)',
+            lineColor: '#64748b',
+            secondaryColor: '#18181b',
+            tertiaryColor: '#09090b',
+            background: '#09090b',
+            mainBkg: '#18181b',
+            nodeBorder: 'rgba(249,115,22,0.3)',
+            clusterBkg: '#09090b',
             clusterBorder: 'rgba(255,255,255,0.08)',
             titleColor: '#F8FAFC',
-            edgeLabelBackground: '#121826',
-            fontFamily: 'Inter, sans-serif',
+            edgeLabelBackground: '#18181b',
+            fontFamily: 'Inter, system-ui, sans-serif',
         },
         flowchart: {
             htmlLabels: true,
@@ -47,6 +47,10 @@ export async function renderMermaid(containerId, diagramCode) {
             .replace(/```\n?/g, '')
             .trim();
 
+        // Sanitize: quote labels inside [] that contain special chars like ()
+        // e.g. E[GoTrue (Auth)] → E["GoTrue (Auth)"]
+        cleanCode = cleanCode.replace(/\[([^\]"]*[()][^\]"]*)\]/g, '["$1"]');
+
         // Ensure it starts with a valid diagram type
         if (!cleanCode.match(/^(graph|flowchart|sequenceDiagram|classDiagram|stateDiagram|erDiagram|gantt|pie|gitGraph)/)) {
             cleanCode = 'graph TD\n' + cleanCode;
@@ -66,12 +70,12 @@ export async function renderMermaid(containerId, diagramCode) {
     } catch (error) {
         console.error('Mermaid render error:', error);
         container.innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px;color:var(--text-muted);">
-        <span style="font-size:32px;">📐</span>
-        <p>Architecture diagram could not be rendered</p>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px;color:#a1a1aa;">
+        <span class="material-symbols-outlined" style="font-size:32px;color:#f97316;">schema</span>
+        <p style="font-size:14px;">Architecture diagram could not be rendered</p>
         <details style="max-width:100%;overflow:auto;">
-          <summary style="cursor:pointer;color:var(--accent);">View raw diagram code</summary>
-          <pre style="margin-top:12px;padding:16px;background:var(--bg-primary);border-radius:8px;font-size:12px;color:var(--text-secondary);white-space:pre-wrap;max-width:100%;">${escapeHtml(diagramCode)}</pre>
+          <summary style="cursor:pointer;color:#f97316;font-size:12px;font-family:monospace;">View raw diagram code</summary>
+          <pre style="margin-top:12px;padding:16px;background:#18181b;border-radius:8px;font-size:12px;color:#a1a1aa;white-space:pre-wrap;max-width:100%;border:1px solid #27272a;">${escapeHtml(diagramCode)}</pre>
         </details>
       </div>
     `;
