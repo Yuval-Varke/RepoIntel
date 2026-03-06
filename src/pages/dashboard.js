@@ -30,11 +30,14 @@ export function renderDashboard(container, state) {
       <!-- Navigation -->
       <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
-          <div class="flex items-center gap-2 cursor-pointer" id="logo-home">
+          <div class="flex items-center gap-2 transition-transform hover:scale-[1.02] duration-300">
             <div class="w-12 h-12 flex items-center justify-center">
               <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
-            <span class="font-serif italic pl-2 text-2xl tracking-tight text-white">RepoIntel</span>
+            <div class="flex flex-col items-start -space-y-1">
+              <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>
+              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-slate-300/70 pl-2 mt-1 pt-2">From Repo to Results</span>
+            </div>
           </div>
           <div class="flex items-center gap-6">
             <div class="hidden md:flex items-center gap-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">

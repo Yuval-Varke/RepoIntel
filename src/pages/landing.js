@@ -5,11 +5,14 @@ export function renderLanding(container, state) {
       
       <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl">
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 transition-transform hover:scale-[1.02] duration-300">
             <div class="w-12 h-12 flex items-center justify-center">
               <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
-            <span class="font-serif italic pl-2 text-2xl tracking-tight text-white">RepoIntel</span>
+            <div class="flex flex-col items-start -space-y-1">
+              <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>
+              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-slate-300/70 pl-2 mt-1 pt-2">From Repo to Results</span>
+            </div>
           </div>
           <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
             <a class="hover:text-primary transition-colors" href="#">Documentation</a>
@@ -28,13 +31,6 @@ export function renderLanding(container, state) {
       <main class="relative z-10 pt-48 pb-32 px-6">
         <section class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div class="relative">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono mb-8 border border-primary/20">
-              <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              From Repo to Results
-            </div>
             <h1 class="font-serif text-7xl md:text-8xl lg:text-9xl leading-[0.85] text-white mb-6">
               Understand <br/>
               <span class="italic font-light">Any</span> <br/>
@@ -51,21 +47,21 @@ export function renderLanding(container, state) {
 
           <div class="relative group">
             <div class="absolute -inset-1 bg-gradient-to-r from-primary/30 to-accent-gold/30 rounded-[32px] blur-2xl opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-            <div class="relative glass p-8 md:p-12 rounded-[32px] shadow-2xl">
+            <div class="relative glass p-5 md:p-12 rounded-[32px] shadow-2xl">
               <div class="mb-8">
-                <label class="block text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-4">Repository URL</label>
+                <label class="block text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-5">Repository URL</label>
                 <div class="flex flex-col sm:flex-row gap-3">
                   <div class="relative flex-grow">
                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">link</span>
-                    <input id="repo-input" class="w-full bg-white/5 border-white/10 rounded-2xl py-4 pl-12 pr-4 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-slate-600 text-white" placeholder="github.com/owner/repo" type="text" value="${state.repoUrl || ''}"/>
+                    <input id="repo-input" class="w-full bg-white/5 border-white/10 rounded-2xl pl-12 pr-4 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-slate-600 text-white" placeholder="github.com/owner/repo" type="text" value="${state.repoUrl || ''}"/>
                   </div>
-                  <button id="analyze-btn" class="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20">
+                  <button id="analyze-btn" class="bg-primary hover:bg-orange-600 text-white px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20">
                     Analyze
                     <span class="material-symbols-outlined">arrow_forward</span>
                   </button>
                 </div>
-                <p id="hero-error" class="text-red-500 text-xs mt-2 ml-4 min-h-[18px]">${state.error || ''}</p>
-                <p class="mt-4 text-xs font-mono text-slate-500 text-center sm:text-left">
+                <p id="hero-error" class="text-red-500 text-xs ml-4 min-h-[18px]">${state.error || ''}</p>
+                <p class=" text-xs font-mono text-slate-500 text-center sm:text-left">
                   Try: <span class="underline cursor-pointer hover:text-primary">supabase/supabase</span> or <span class="underline cursor-pointer hover:text-primary">public-apis/public-apis</span>
                 </p>
               </div>
@@ -77,7 +73,7 @@ export function renderLanding(container, state) {
                 </div>
                 <div class="glass p-4 rounded-2xl border-white/5">
                   <span class="material-symbols-outlined text-primary mb-2">architecture</span>
-                  <div class="text-sm font-bold">Flow Diagrams</div>
+                  <div class="text-sm font-bold">Folder Structure</div>
                   <div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Interactive</div>
                 </div>
               </div>
@@ -107,16 +103,19 @@ export function renderLanding(container, state) {
 
       <footer class="relative z-10 border-t border-white/5 py-12 px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div class="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-            <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
-            <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
+          <div class="flex flex-col items-start gap-2 cursor-pointer group">
+            <div class="flex items-center gap-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+              <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+              <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
+            </div>
+            <p class="text-[9px] font-mono tracking-[0.2em] uppercase text-slate-600 group-hover:text-primary transition-colors pl-6.5">From Repo to Results</p>
           </div>
-          <div class="text-slate-500 font-mono text-[10px] tracking-widest uppercase">
+          <div class="text-slate-300/70 font-mono text-[10px] tracking-widest uppercase">
             © 2026 - By Yuval Varke
           </div>
           <div class="flex gap-6">
-            <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">brand_awareness</span></a>
-            <a class="text-slate-500 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">code</span></a>
+            <a class="text-slate-300/70 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">brand_awareness</span></a>
+            <a class="text-slate-300/70 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">code</span></a>
           </div>
         </div>
       </footer>
