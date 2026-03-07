@@ -1,7 +1,6 @@
 import { exportAsPDF } from '../utils/export.js';
 import { navigateTo } from '../main.js';
 import { renderMermaid } from '../components/mermaid.js';
-import { initScoreRings } from '../components/scoreRing.js';
 import { initAccordions } from '../components/accordion.js';
 
 function formatNum(n) {
@@ -143,70 +142,31 @@ export function renderDashboard(container, state) {
             </section>
 
             <!-- Scores Section -->
-            <section class="glass-panel p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden relative">
-              <!-- Subtle glow behind main ring -->
-              <div class="absolute top-0 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
-
-              <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12">
-                <!-- Main Score Ring -->
+            <section class="glass-panel p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="flex flex-col justify-center items-center text-center">
-                  <div class="score-ring relative w-36 h-36 flex items-center justify-center mb-4">
+                  <div class="relative w-32 h-32 flex items-center justify-center mb-4">
                     <svg class="w-full h-full -rotate-90" viewBox="0 0 128 128">
-                      <circle class="score-ring-track text-zinc-800" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="6"></circle>
-                      <circle class="score-ring-progress text-primary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="364.4" stroke-linecap="round" stroke-width="6" data-target="${364.4 - (364.4 * (scores.global || 0) / 100)}" style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.4));"></circle>
+                      <circle class="text-zinc-100 dark:text-zinc-800" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+                      <circle class="text-primary transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="${364.4 - (364.4 * (scores.global || 0) / 100)}" stroke-linecap="round" stroke-width="8"></circle>
                     </svg>
-                    <div class="absolute flex items-center justify-center">
-                      <span class="score-ring-value text-4xl font-display font-bold text-white tabular-nums" data-count-to="${scores.global || 0}">0</span>
-                    </div>
+                    <span class="absolute text-3xl font-display font-bold text-zinc-100 dark:text-white">${scores.global || '...'}</span>
                   </div>
                   <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Repository Score</span>
                 </div>
-
-                <!-- Sub Scores -->
-                <div class="md:col-span-2 grid grid-cols-2 gap-6">
-                  ${['quality', 'security', 'maintainability', 'documentation'].map((key, i) => {
-    const score = scores[key] || 0;
-    const color = score >= 80 ? 'text-emerald-400' : score >= 50 ? 'text-amber-400' : 'text-red-400';
-    const explanation = analysis.scoreExplanations?.[key] || '';
-    return `
-                    <div class="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/50 hover:border-zinc-700 transition-all group">
-                      <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">${key}</span>
-                        <span class="text-lg font-display font-bold ${color} tabular-nums" data-count-to="${score}">0</span>
+                <div class="md:col-span-2 grid grid-cols-2 gap-y-6 gap-x-12">
+                  ${['quality', 'security', 'maintainability', 'documentation'].map(key => `
+                    <div>
+                      <div class="flex justify-between text-xs font-mono mb-2 uppercase text-zinc-500">
+                        <span>${key}</span>
+                        <span>${scores[key]}%</span>
                       </div>
-                      <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden mb-3">
-                        <div class="score-bar-fill h-full rounded-full bg-gradient-to-r from-primary/80 to-primary transition-all duration-1000 ease-out" data-width="${score}" style="width: 0%"></div>
+                      <div class="h-1 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-primary transition-all duration-1000" style="width: ${scores[key]}%"></div>
                       </div>
-                      ${explanation ? `<p class="text-[11px] text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors">${explanation}</p>` : ''}
                     </div>
-                  `}).join('')}
+                  `).join('')}
                 </div>
-              </div>
-            </section>
-
-            <!-- Observation List -->
-            <section class="space-y-6">
-              <h3 class="text-sm font-mono text-zinc-400 uppercase tracking-widest">Strategic Observations</h3>
-              <div class="accordion space-y-2">
-                ${(analysis.observations || []).map((obs, i) => `
-                  <div class="accordion-item border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden transition-all">
-                    <button class="accordion-header w-full flex items-center gap-4 p-5 text-left hover:bg-zinc-900/50 transition-colors">
-                      <div class="p-2 ${obs.type === 'risk' ? 'bg-orange-500/10' : 'bg-blue-500/10'} rounded flex-shrink-0">
-                        <span class="material-symbols-outlined text-primary">${obs.type === 'risk' ? 'warning' : 'info'}</span>
-                      </div>
-                      <div class="flex-grow min-w-0">
-                        <h4 class="font-medium text-zinc-100 dark:text-white truncate">${obs.title}</h4>
-                      </div>
-                      <span class="text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider flex-shrink-0">${obs.priority || 'Medium'}</span>
-                      <span class="material-symbols-outlined accordion-chevron text-zinc-500 text-xl flex-shrink-0 transition-transform">expand_more</span>
-                    </button>
-                    <div class="accordion-content">
-                      <div class="accordion-body px-5 pb-5 pt-0">
-                        <p class="text-sm text-zinc-400 leading-relaxed pl-14">${obs.description || obs.content}</p>
-                      </div>
-                    </div>
-                  </div>
-                `).join('')}
               </div>
             </section>
 
@@ -466,6 +426,52 @@ export function renderDashboard(container, state) {
           </aside>
         </div>
 
+        <!-- Core Features & Strategic Observations Grid -->
+        <section class="mt-20">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Core Features -->
+            <div class="space-y-4">
+              <h3 class="text-sm font-mono text-primary uppercase tracking-widest">Core Features</h3>
+              <div class="space-y-2">
+                ${(analysis.highlights || []).map(h => `
+                  <div class="flex items-start gap-3 p-4 border border-zinc-800 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/30 transition-all group">
+                    <div class="p-1.5 bg-emerald-500/10 rounded flex-shrink-0 mt-0.5">
+                      <span class="material-symbols-outlined text-emerald-400 text-lg">check_circle</span>
+                    </div>
+                    <p class="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors leading-relaxed">${h}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Strategic Observations -->
+            <div class="space-y-4">
+              <h3 class="text-sm font-mono text-primary uppercase tracking-widest">Strategic Observations</h3>
+              <div class="accordion space-y-2">
+                ${(analysis.observations || []).map((obs, i) => `
+                  <div class="accordion-item border border-zinc-800 rounded-xl overflow-hidden transition-all">
+                    <button class="accordion-header w-full flex items-center gap-3 p-4 text-left hover:bg-zinc-900/50 transition-colors">
+                      <div class="p-1.5 ${obs.type === 'risk' ? 'bg-orange-500/10' : 'bg-blue-500/10'} rounded flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary text-lg">${obs.type === 'risk' ? 'warning' : 'info'}</span>
+                      </div>
+                      <div class="flex-grow min-w-0">
+                        <h4 class="font-medium text-sm text-zinc-100 truncate">${obs.title}</h4>
+                      </div>
+                      <span class="text-[9px] font-mono bg-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider flex-shrink-0 text-zinc-400">${obs.priority || 'Medium'}</span>
+                      <span class="material-symbols-outlined accordion-chevron text-zinc-500 text-lg flex-shrink-0 transition-transform">expand_more</span>
+                    </button>
+                    <div class="accordion-content">
+                      <div class="accordion-body px-4 pb-4 pt-0">
+                        <p class="text-sm text-zinc-400 leading-relaxed pl-10">${obs.description || obs.content}</p>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- Recommendations & Actions Section -->
         <section class="mt-32">
           <div class="flex items-center gap-4 mb-10">
@@ -530,9 +536,6 @@ export function renderDashboard(container, state) {
   document.getElementById('logo-home')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('back-home-nav')?.addEventListener('click', () => navigateTo('landing'));
   document.getElementById('export-pdf-top')?.addEventListener('click', () => exportAsPDF(d));
-
-  // Initialize score ring animation
-  initScoreRings();
 
   // Initialize accordions
   initAccordions();
