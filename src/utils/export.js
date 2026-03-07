@@ -90,15 +90,25 @@ export function exportAsPDF(analysisData) {
   <p><strong>Pattern:</strong> ${analysis.architecture?.pattern || 'Unknown'}</p>
   <p>${analysis.architecture?.description || ''}</p>
 
-  <h2>Insights</h2>
-  ${renderPDFInsights('Maintainability', analysis.insights?.maintainability)}
-  ${renderPDFInsights('Security', analysis.insights?.security)}
-  ${renderPDFInsights('Architecture', analysis.insights?.architecture)}
-  ${renderPDFInsights('Documentation', analysis.insights?.documentation)}
+  <h2>Score Explanations</h2>
+  ${analysis.scoreExplanations ? Object.entries(analysis.scoreExplanations).map(([key, val]) =>
+    `<h3>${key.charAt(0).toUpperCase() + key.slice(1)}</h3><p>${val}</p>`
+  ).join('') : '<p>No explanations available.</p>'}
 
-  <h2>Improvements</h2>
+  <h2>Deep Dive</h2>
+  <p>${analysis.deepDive || ''}</p>
+
+  <h2>Key Insight</h2>
+  <p><em>${analysis.keyInsight || ''}</em></p>
+
+  <h2>Observations</h2>
   <ul>
-    ${(analysis.improvements || []).map(i => `<li>${i}</li>`).join('')}
+    ${(analysis.observations || []).map(o => `<li><strong>${o.title}</strong> [${o.priority || 'Medium'}] — ${o.description || o.content}</li>`).join('')}
+  </ul>
+
+  <h2>AI Recommendations</h2>
+  <ul>
+    ${(analysis.recommendations || []).map(r => `<li><strong>${r.title}</strong> [${r.type}/${r.priority}] — ${r.description}</li>`).join('')}
   </ul>
 
   <h2>Risks</h2>
@@ -110,6 +120,11 @@ export function exportAsPDF(analysisData) {
   <ul>
     ${(analysis.highlights || []).map(h => `<li>${h}</li>`).join('')}
   </ul>
+
+  <h2>How to Run Locally</h2>
+  <ol>
+    ${(analysis.runInstructions || []).map(s => `<li>${s.step || ''}${s.command ? ` — <code>${s.command}</code>` : ''}</li>`).join('')}
+  </ol>
 
   <div class="meta">
     Stars: ${meta.stars} | Forks: ${meta.forks} | Issues: ${meta.openIssues} | Files: ${repoData.fileCount}<br>
@@ -139,11 +154,6 @@ function renderPDFStack(title, items) {
   return `<h3>${title}</h3><div class="pills">${items.map(i => `<span class="pill">${i}</span>`).join('')}</div>`;
 }
 
-function renderPDFInsights(title, items) {
-  if (!items || items.length === 0) return '';
-  return `<h3>${title}</h3><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
-}
-
 export function exportAsMarkdown(analysisData) {
   const { repoData, analysis } = analysisData;
   const meta = repoData.metadata;
@@ -161,7 +171,23 @@ export function exportAsMarkdown(analysisData) {
   md += `| Documentation | ${analysis.scores.documentation}/100 | ${getScoreEmoji(analysis.scores.documentation)} |\n`;
   md += `| Maintainability | ${analysis.scores.maintainability}/100 | ${getScoreEmoji(analysis.scores.maintainability)} |\n\n`;
 
+  if (analysis.scoreExplanations) {
+    md += `### Score Explanations\n\n`;
+    Object.entries(analysis.scoreExplanations).forEach(([key, val]) => {
+      md += `- **${key.charAt(0).toUpperCase() + key.slice(1)}:** ${val}\n`;
+    });
+    md += `\n`;
+  }
+
   md += `## Summary\n\n${analysis.summary}\n\n`;
+
+  if (analysis.deepDive) {
+    md += `## Deep Dive\n\n${analysis.deepDive}\n\n`;
+  }
+
+  if (analysis.keyInsight) {
+    md += `> **Key Insight:** *${analysis.keyInsight}*\n\n`;
+  }
 
   md += `## Tech Stack\n\n`;
   if (analysis.techStack?.primary?.length) md += `**Primary:** ${analysis.techStack.primary.join(', ')}\n`;
@@ -171,7 +197,7 @@ export function exportAsMarkdown(analysisData) {
   md += `\n`;
 
   md += `## Languages\n\n`;
-  Object.entries(data.languages).forEach(([lang, info]) => {
+  Object.entries(repoData.languages).forEach(([lang, info]) => {
     md += `- ${lang}: ${info.percentage}%\n`;
   });
   md += `\n`;
@@ -184,18 +210,19 @@ export function exportAsMarkdown(analysisData) {
     md += `### Architecture Diagram\n\n\`\`\`mermaid\n${analysis.mermaidDiagram}\n\`\`\`\n\n`;
   }
 
-  md += `## Insights\n\n`;
-  ['maintainability', 'security', 'architecture', 'documentation'].forEach(key => {
-    if (analysis.insights?.[key]?.length) {
-      md += `### ${key.charAt(0).toUpperCase() + key.slice(1)}\n\n`;
-      analysis.insights[key].forEach(i => { md += `- ${i}\n`; });
-      md += `\n`;
-    }
-  });
+  if (analysis.observations?.length) {
+    md += `## Observations\n\n`;
+    analysis.observations.forEach(o => {
+      md += `- **${o.title}** [${o.priority || 'Medium'}] — ${o.description || o.content}\n`;
+    });
+    md += `\n`;
+  }
 
-  if (analysis.improvements?.length) {
-    md += `## Improvements\n\n`;
-    analysis.improvements.forEach(i => { md += `- ${i}\n`; });
+  if (analysis.recommendations?.length) {
+    md += `## AI Recommendations\n\n`;
+    analysis.recommendations.forEach(r => {
+      md += `- **${r.title}** [${r.type}/${r.priority}] — ${r.description}\n`;
+    });
     md += `\n`;
   }
 
@@ -211,8 +238,16 @@ export function exportAsMarkdown(analysisData) {
     md += `\n`;
   }
 
+  if (analysis.runInstructions?.length) {
+    md += `## How to Run Locally\n\n`;
+    analysis.runInstructions.forEach((s, i) => {
+      md += `${i + 1}. ${s.step || ''}${s.command ? ` — \`${s.command}\`` : ''}\n`;
+    });
+    md += `\n`;
+  }
+
   md += `---\n\n`;
-  md += `*Stars: ${meta.stars} | Forks: ${meta.forks} | Issues: ${meta.openIssues} | Files: ${data.fileCount}*\n`;
+  md += `*Stars: ${meta.stars} | Forks: ${meta.forks} | Issues: ${meta.openIssues} | Files: ${repoData.fileCount}*\n`;
   md += `*License: ${meta.license} | Created: ${new Date(meta.createdAt).toLocaleDateString()}*\n`;
   md += `\n*Report generated by [RepoIntel](https://repointel.dev)*\n`;
 
