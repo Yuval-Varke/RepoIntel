@@ -365,7 +365,7 @@ export function renderDashboard(container, state) {
           </div>
 
           <!-- Sidebar -->
-          <aside class="lg:col-span-4 space-y-12">
+          <aside class="lg:col-span-4 space-y-12 lg:sticky lg:top-28 lg:self-start">
             <!-- Tech Stack Panel -->
             <div class="bg-zinc-100/50 dark:bg-zinc-900/40 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800">
               <h3 class="editorial-title text-2xl mb-8">Tech Stack</h3>
