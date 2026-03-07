@@ -210,9 +210,7 @@
     transition: all var(--duration) var(--ease);
 }
 
-.accordion-item:last-child {
-    border-bottom: none;
-}
+
 
 .accordion-header {
     display: flex;
