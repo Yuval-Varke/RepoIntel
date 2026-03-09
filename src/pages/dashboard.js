@@ -271,14 +271,7 @@ export function renderDashboard(container, state) {
                   </div>
                 </div>
 
-                <!-- Language Tags -->
-                <div class="px-8 py-4 bg-zinc-900/5 flex flex-wrap gap-2 border-b border-zinc-800/50">
-                  ${langs.slice(0, 5).map(([name]) => `
-                    <span class="px-2 py-1 rounded-md bg-zinc-900/40 border border-zinc-800 text-[10px] font-mono text-zinc-500 flex items-center gap-1.5 hover:text-zinc-300 pointer-events-none transition-colors">
-                      <span class="h-1 w-1 rounded-full bg-primary/40"></span> ${name}
-                    </span>
-                  `).join('')}
-                </div>
+
 
                 <!-- Tree View Container -->
                 <div class="p-8 max-h-[600px] overflow-y-auto custom-scrollbar">
@@ -329,7 +322,6 @@ export function renderDashboard(container, state) {
             <div class="tree-row flex items-center gap-2 py-1.5 hover:bg-white/5 px-2 rounded-lg transition-all cursor-default group" data-name="${name.toLowerCase()}" data-type="file" style="padding-left: ${depth * 20 + 28}px">
               <span class="material-symbols-outlined text-zinc-500 group-hover:text-zinc-300 text-lg transition-colors">description</span>
               <span class="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">${name}</span>
-              <span class="ml-auto text-[9px] font-mono text-zinc-700 uppercase tracking-tighter">indexed</span>
             </div>
           `;
         }
