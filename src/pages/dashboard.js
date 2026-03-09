@@ -257,6 +257,7 @@ export function renderDashboard(container, state) {
                         <span class="px-2 py-0.5 rounded-full bg-zinc-800 text-[10px] font-mono text-zinc-400 flex items-center gap-1">
                           <span class="material-symbols-outlined text-[10px]">terminal</span> ${meta.defaultBranch || 'main'}
                         </span>
+                        <span id="tree-match-count" class="hidden px-2 py-0.5 rounded-full bg-primary/10 text-[10px] font-mono text-primary"></span>
                       </div>
                       <p class="text-[11px] font-mono text-zinc-500 uppercase tracking-widest">
                         ${d.repoData.fileCount} Files • ${d.repoData.folderStructure.length} Folders
@@ -562,11 +563,16 @@ export function renderDashboard(container, state) {
     const allFolders = treeContainer.querySelectorAll('.tree-folder');
 
     const emptyState = document.getElementById('tree-empty');
+    const matchCountEl = document.getElementById('tree-match-count');
+
+    // Remove all highlights first
+    allRows.forEach(r => r.classList.remove('tree-match'));
 
     if (!query) {
       allRows.forEach(r => r.classList.remove('hidden'));
       allFolders.forEach(f => f.classList.remove('hidden'));
       if (emptyState) emptyState.classList.add('hidden');
+      if (matchCountEl) matchCountEl.classList.add('hidden');
       return;
     }
 
@@ -580,6 +586,9 @@ export function renderDashboard(container, state) {
       if (name.includes(query)) {
         matchedCount++;
         row.classList.remove('hidden');
+
+        // Highlight matching file/folder rows
+        row.classList.add('tree-match');
 
         // If folder name matches, show all its contents
         const hostFolder = row.closest('details.tree-folder');
@@ -603,6 +612,16 @@ export function renderDashboard(container, state) {
         }
       }
     });
+
+    // Show match count
+    if (matchCountEl) {
+      if (matchedCount > 0) {
+        matchCountEl.textContent = matchedCount + (matchedCount === 1 ? ' match' : ' matches');
+        matchCountEl.classList.remove('hidden');
+      } else {
+        matchCountEl.classList.add('hidden');
+      }
+    }
 
     if (emptyState) {
       if (matchedCount > 0) emptyState.classList.add('hidden');

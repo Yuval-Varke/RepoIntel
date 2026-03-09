@@ -407,6 +407,17 @@
     transform: translateX(-50%) scale(1);
 }
 
+/* ---------- TREE SEARCH HIGHLIGHT ---------- */
+.tree-match {
+    background: rgba(249, 115, 22, 0.08) !important;
+    border-left: 2px solid rgba(249, 115, 22, 0.5);
+    border-radius: 6px;
+}
+
+.tree-match span {
+    color: var(--text-primary) !important;
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
     .container {
