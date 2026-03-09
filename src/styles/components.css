@@ -409,13 +409,11 @@
 
 /* ---------- TREE SEARCH HIGHLIGHT ---------- */
 .tree-match {
-    background: rgba(249, 115, 22, 0.08) !important;
-    border-left: 2px solid rgba(249, 115, 22, 0.5);
-    border-radius: 6px;
+    box-shadow: inset 3px 0 0 rgba(249, 115, 22, 0.6);
 }
 
-.tree-match span {
-    color: var(--text-primary) !important;
+.tree-match>span:nth-child(2) {
+    color: rgb(249, 115, 22) !important;
 }
 
 /* ---------- RESPONSIVE ---------- */
