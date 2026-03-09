@@ -58,7 +58,7 @@ export function renderDashboard(container, state) {
         </div>
       </nav>
 
-      <main class="max-w-7xl mx-auto px-6 pt-32 pb-12 lg:pb-20">
+      <main class="max-w-7xl mx-auto px-6 pt-32 pb-12">
         <!-- Header Section -->
         <header class="mb-16 lg:mb-24">
           <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
@@ -184,7 +184,7 @@ export function renderDashboard(container, state) {
                 </div>
                 <div>
                   <h2 class="editorial-title text-4xl italic">Architecture Diagram</h2>
-                  <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">AI-generated project structure visualization</p>
+                  <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">Project Structure Visualization</p>
                 </div>
               </div>
 
@@ -508,16 +508,26 @@ export function renderDashboard(container, state) {
           </div>
         </section>
 
-        <!-- Footer Footer -->
-        <footer class="mt-32 pt-16 border-t border-zinc-200 dark:border-zinc-800 text-center">
-          <h4 class="editorial-title text-3xl mb-8 dark:text-white italic">Analyze another repository?</h4>
-          <div class="max-w-xl mx-auto flex gap-4">
-            <input id="footer-repo-input" class="flex-grow bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-primary focus:border-primary text-zinc-100 dark:text-white" placeholder="https://github.com/..." type="text"/>
-            <button id="footer-analyze-btn" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-8 py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-opacity">Analyze</button>
+        <!-- Footer -->
+        <footer class="mt-32 pt-16 border-t border-zinc-800">
+          <div class="text-center mb-14">
+            <h4 class="editorial-title text-3xl mb-8 text-white italic">Analyze another repository?</h4>
+            <div class="max-w-xl mx-auto flex gap-4">
+              <input id="footer-repo-input" class="flex-grow bg-zinc-900 border-zinc-800 rounded-xl px-4 py-3 text-sm focus:ring-primary focus:border-primary text-zinc-100" placeholder="https://github.com/..." type="text"/>
+              <button id="footer-analyze-btn" class="bg-zinc-100 text-zinc-900 px-8 py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-opacity">Analyze</button>
+            </div>
           </div>
-          <div class="mt-12 flex flex-col items-center gap-4">
-            <p class="text-zinc-400 text-xs font-mono tracking-widest uppercase">RepoIntel</p>
-            <img src="/logo_512x512.gif" class="w-6 h-6 opacity-40 mix-blend-lighten" alt="RepoIntel Logo" />
+          <div class="flex flex-col md:flex-row justify-between items-center gap-8 pt-8 border-t border-zinc-800">
+            <div class="flex flex-col items-start gap-2 cursor-pointer group">
+              <div class="flex items-center gap-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+                <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
+              </div>
+              <p class="text-[9px] font-mono tracking-[0.2em] uppercase text-zinc-600 group-hover:text-primary transition-colors pl-6.5">From Repo to Results</p>
+            </div>
+            <div class="text-zinc-500 font-mono text-[10px] tracking-widest uppercase">
+              © 2026 - By Yuval Varke
+            </div>
           </div>
         </footer>
       </main>
