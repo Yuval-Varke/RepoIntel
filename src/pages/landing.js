@@ -11,13 +11,10 @@ export function renderLanding(container, state) {
             </div>
             <div class="flex flex-col items-start -space-y-1">
               <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>
-              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-slate-300/70 pl-2 mt-1 pt-2">From Repo to Results</span>
+              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-primary pl-2 mt-1 pt-2">From Repo to Results</span>
             </div>
           </div>
           <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
-            <a class="hover:text-primary transition-colors" href="#">Documentation</a>
-            <a class="hover:text-primary transition-colors" href="#">Showcase</a>
-            <a class="hover:text-primary transition-colors" href="#">Pricing</a>
           </div>
           <div class="flex items-center gap-4">
             <a class="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full text-sm font-semibold hover:opacity-90 transition-opacity" href="https://github.com">

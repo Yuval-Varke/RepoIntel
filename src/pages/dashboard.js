@@ -38,7 +38,7 @@ export function renderDashboard(container, state) {
             </div>
             <div class="flex flex-col items-start -space-y-1">
               <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>
-              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-slate-300/70 pl-2 mt-1 pt-2">From Repo to Results</span>
+              <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-primary pl-2 mt-1 pt-2">From Repo to Results</span>
             </div>
           </div>
           <div class="flex items-center gap-6">
