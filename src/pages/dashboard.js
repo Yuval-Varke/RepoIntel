@@ -242,7 +242,15 @@ export function renderDashboard(container, state) {
                 <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
               </div>
               
-              <h2 class="editorial-title text-4xl mb-12 italic">Repository Structure</h2>
+              <div class="flex items-center gap-4 mb-12">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary">account_tree</span>
+                </div>
+                <div>
+                  <h2 class="editorial-title text-4xl italic">Repository Structure</h2>
+                  <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">Indexed file and folder hierarchy</p>
+                </div>
+              </div>
 
               <div class="glass-panel rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl">
                 <!-- Header Component -->
@@ -472,7 +480,15 @@ export function renderDashboard(container, state) {
             <div class="flex-grow h-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
           </div>
           
-          <h2 class="editorial-title text-4xl mb-12 italic">AI Recommended Issues</h2>
+          <div class="flex items-center gap-4 mb-12">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary">lightbulb</span>
+            </div>
+            <div>
+              <h2 class="editorial-title text-4xl italic">AI Recommended Issues</h2>
+              <p class="text-xs text-zinc-500 font-mono uppercase tracking-widest mt-1">Actionable improvements for your codebase</p>
+            </div>
+          </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="action-content">
             ${analysis.recommendations.length > 0 ? analysis.recommendations.map(r => `
