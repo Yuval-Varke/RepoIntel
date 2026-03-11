@@ -51,9 +51,12 @@ export function renderLoading(container, state) {
       </div>
 
       <!-- Bottom Decoration -->
-      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50">
-        <span class="font-mono text-[20px] uppercase tracking-[0.4em] text-zinc-400">RepoIntel</span>
-        <span class="text-[12px] font-mono tracking-[0.25em] uppercase text-slate-300/70">From Repo to Results</span>
+      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 group cursor-pointer">
+        <div class="flex items-center gap-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+          <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+          <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
+        </div>
+        <p class="text-[9px] font-mono tracking-[0.2em] uppercase text-zinc-600 group-hover:text-primary transition-colors">From Repo to Results</p>
       </div>
 
       <!-- Accent Blurs -->
