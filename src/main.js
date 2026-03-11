@@ -63,9 +63,24 @@ export async function analyzeRepo(repoUrl, refresh = false) {
   }
 }
 
+// Initialize scroll restoration behavior
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 // Render
 function render() {
   const app = document.getElementById('app');
+  
+  // Aggressive scroll reset to combat browser restoration
+  window.scrollTo(0, 0);
+  setTimeout(() => window.scrollTo(0, 0), 10);
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+    const input = document.getElementById('repo-input');
+    if (input) input.focus({ preventScroll: true });
+  }, 100);
+  setTimeout(() => window.scrollTo(0, 0), 500);
 
   switch (state.page) {
     case 'landing':

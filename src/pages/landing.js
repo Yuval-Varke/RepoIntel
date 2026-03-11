@@ -157,6 +157,4 @@ export function renderLanding(container, state) {
     });
   });
 
-  window.scrollTo(0, 0);
-  input.focus();
 }
