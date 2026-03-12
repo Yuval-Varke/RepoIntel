@@ -24,7 +24,7 @@ export function renderLanding(container, state) {
               <path d="M52 12 L59 18 L51 23" />
             </svg>
             <a class="flex items-center gap-2 px-4 py-2 bg-white text-black hover:text-black visited:text-black rounded-full text-sm font-semibold no-underline" href="https://github.com/Yuval-Varke/RepoIntel" target="_blank">
-              <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <img src="https://cdn.simpleicons.org/github/000000" alt="GitHub" class="w-5 h-5" />
               <span>GitHub</span>
             </a>
           </div>
@@ -42,10 +42,7 @@ export function renderLanding(container, state) {
             <p class="text-xl md:text-2xl font-light text-slate-400 max-w-md leading-relaxed">
               A boutique analysis engine that turns hours of digging into seconds of clarity.
             </p>
-            <svg class="hand-drawn-arrow" fill="none" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 10C30 40 70 45 85 15" stroke="white" stroke-linecap="round" stroke-width="1.5"></path>
-              <path d="M78 18L86 14L88 23" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
-            </svg>
+            <span class="material-symbols-outlined absolute right-12 bottom-0 text-white transform -rotate-12 opacity-80" style="font-size: 80px; font-weight: 200;">subdirectory_arrow_right</span>
           </div>
 
           <div class="relative group">
@@ -55,7 +52,7 @@ export function renderLanding(container, state) {
                 <label class="block text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-5">Repository URL</label>
                 <div class="flex flex-col sm:flex-row gap-3">
                   <div class="relative flex-grow">
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <img src="https://cdn.simpleicons.org/github/94a3b8" alt="GitHub" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" />
                     <input id="repo-input" class="w-full bg-white/5 border-white/10 rounded-2xl pl-12 pr-4 text-lg focus:ring-primary focus:border-primary transition-all placeholder:text-slate-600 text-white" placeholder="github.com/owner/repo" type="text" value="${state.repoUrl || ''}"/>
                   </div>
                   <button id="analyze-btn" class="bg-primary hover:bg-orange-600 text-white px-5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20">
