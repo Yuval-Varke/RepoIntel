@@ -51,6 +51,10 @@ export async function renderMermaid(containerId, diagramCode) {
         // e.g. E[GoTrue (Auth)] → E["GoTrue (Auth)"]
         cleanCode = cleanCode.replace(/\[([^\]"]*[()][^\]"]*)\]/g, '["$1"]');
 
+        // Sanitize: inner parentheses inside text (like "Service (Elixir)") break Mermaid parsing
+        // We replace them with square brackets safely if they are preceded by a space.
+        cleanCode = cleanCode.replace(/\s\(([^)]+)\)/g, ' [$1]');
+
         // Ensure it starts with a valid diagram type
         if (!cleanCode.match(/^(graph|flowchart|sequenceDiagram|classDiagram|stateDiagram|erDiagram|gantt|pie|gitGraph)/)) {
             cleanCode = 'graph TD\n' + cleanCode;

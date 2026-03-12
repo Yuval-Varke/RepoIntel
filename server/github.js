@@ -84,6 +84,19 @@ export async function fetchRepoData(owner, repo) {
         }
     }
 
+    // Identify entry point files for architecture context
+    const entryPattern = /^(docker-compose\.ya?ml|schema\.prisma|prisma\/schema\.prisma|server\.[jt]s|app\.[jt]s|main\.py|main\.go|index\.[jt]s|src\/index\.[jt]s|src\/main\.[jt]s|src\/app\.[jt]sx?|manage\.py)$/i;
+    const foundEntryFiles = fileStructure.filter(path => entryPattern.test(path));
+
+    // Fetch content of entry files
+    const entryContents = {};
+    for (const file of foundEntryFiles.slice(0, 3)) { // Max 3 files to save tokens
+        const content = await fetchFileContent(owner, repo, file);
+        if (content) {
+            entryContents[file] = content.length > 1500 ? content.substring(0, 1500) + '...(truncated)' : content;
+        }
+    }
+
     // Fetch README
     let readme = null;
     for (const readmeName of ['README.md', 'readme.md', 'README.rst', 'README.txt', 'README']) {
@@ -140,6 +153,7 @@ export async function fetchRepoData(owner, repo) {
         folderStructure: folders.slice(0, 80),
         fileStructure: fileStructure.slice(0, 200),
         dependencyFiles: depContents,
+        entryFiles: entryContents,
         configFiles: foundConfigFiles,
         readme,
         contributors: (Array.isArray(contributors) ? contributors : []).slice(0, 10).map(c => ({
