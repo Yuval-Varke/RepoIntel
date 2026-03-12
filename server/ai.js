@@ -80,6 +80,14 @@ ${Object.entries(repoData.dependencyFiles).map(([file, content]) =>
         `#### ${file}\n\`\`\`\n${content}\n\`\`\``
     ).join('\n\n')}
 
+### Architecture Context Files (Contents)
+${Object.keys(repoData.entryFiles || {}).length > 0 ? 
+    Object.entries(repoData.entryFiles).map(([file, content]) =>
+        `#### ${file}\n\`\`\`\n${content}\n\`\`\``
+    ).join('\n\n') 
+    : 'No clear entry files extracted.'
+}
+
 ### Configuration Files Detected
 ${repoData.configFiles.join(', ')}
 
@@ -154,7 +162,7 @@ Provide a JSON response with EXACTLY this structure:
 }
 
 IMPORTANT:
-- The Mermaid diagram should use \`graph TD\` format and show actual project components
+- The Mermaid diagram should use \`graph TD\` format and show actual project components mapped accurately based on the Architecture Context Files and dependencies provided.
 - All arrays must have at least 2 items
 - Extract "runInstructions" for basic local setup: (1) git clone, (2) cd, (3) Installation (npm/pip install), (4) Running/Starting (npm start/python app.py).
 - Prioritize high-quality, executable commands over generic "ls" or documentation commands.

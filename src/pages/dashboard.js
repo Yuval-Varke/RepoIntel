@@ -492,29 +492,27 @@ export function renderDashboard(container, state) {
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="action-content">
             ${analysis.recommendations.length > 0 ? analysis.recommendations.map(r => `
-              <div class="action-card group p-5 bg-zinc-900/40 border border-zinc-800/50 rounded-2xl hover:border-zinc-700 transition-all flex flex-col justify-between">
-                <div>
-                  <div class="flex gap-4 mb-4">
-                    <div class="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center border border-zinc-800 shrink-0 shadow-inner group-hover:border-primary/30 transition-colors">
-                      <span class="material-symbols-outlined text-zinc-600 group-hover:text-primary transition-colors text-xl">
-                        ${r.category === 'Testing' ? 'science' : r.category === 'Documentation' ? 'description' : r.category === 'Technical Debt' ? 'architecture' : r.category === 'Infrastructure' ? 'hub' : 'settings'}
-                      </span>
-                    </div>
-                    <div class="flex-grow min-w-0">
-                      <div class="flex items-center justify-between mb-0.5">
-                        <h4 class="font-display text-base font-bold text-zinc-100 group-hover:text-white transition-colors truncate">${r.title}</h4>
-                      </div>
-                      <p class="text-[11px] text-zinc-500 leading-snug group-hover:text-zinc-400 transition-colors line-clamp-2">${r.description}</p>
-                    </div>
+              <div class="action-card group p-6 bg-zinc-900/40 border border-zinc-800/50 rounded-2xl hover:border-zinc-700 hover:bg-zinc-900/60 transition-all flex flex-col h-full">
+                <div class="flex items-start gap-4 mb-5">
+                  <div class="w-10 h-10 rounded-xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700/50 shrink-0 shadow-inner group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors">
+                    <span class="material-symbols-outlined text-zinc-500 group-hover:text-primary transition-colors text-xl">
+                      ${r.category === 'Testing' ? 'science' : r.category === 'Documentation' ? 'description' : r.category === 'Technical Debt' ? 'architecture' : r.category === 'Infrastructure' ? 'hub' : 'settings'}
+                    </span>
+                  </div>
+                  <div class="flex-grow min-w-0 pt-0.5">
+                    <h4 class="font-sans text-sm font-semibold text-zinc-100 group-hover:text-white transition-colors truncate tracking-wide">${r.title}</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors mt-1.5 line-clamp-3">${r.description}</p>
                   </div>
                 </div>
 
-                <a href="https://github.com/${meta.fullName}/issues/new?title=${encodeURIComponent(r.title)}&body=${encodeURIComponent(r.description + '\n\n---\n*Synthesis by RepoIntel AI Engine*')}" 
-                   target="_blank"
-                   class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-zinc-100 text-zinc-900 hover:bg-white hover:text-zinc-900 rounded-lg text-[9px] font-bold transition-all active:scale-95 shadow-lg shadow-black/20 mt-2">
-                  <span class="material-symbols-outlined text-[14px] font-bold">add</span>
-                  Create GitHub Issue
-                </a>
+                <div class="mt-auto pt-2">
+                  <a href="https://github.com/${meta.fullName}/issues/new?title=${encodeURIComponent(r.title)}&body=${encodeURIComponent(r.description + '\n\n---\n*Synthesis by RepoIntel AI Engine*')}" 
+                     target="_blank"
+                     class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-100 text-zinc-900 hover:bg-white hover:text-black rounded-xl text-xs font-semibold transition-all active:scale-95 shadow-lg shadow-black/20">
+                    <span class="material-symbols-outlined text-[16px]">add</span>
+                    Create GitHub Issue
+                  </a>
+                </div>
               </div>
             `).join('') : `
               <div class="col-span-full py-20 text-center">
