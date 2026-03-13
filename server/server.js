@@ -100,7 +100,7 @@ app.post('/api/v1/analyze', analyzeLimiter, async (req, res) => {
 
 
 // SPA Fallback: Route all other non-API traffic to the index.html
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
     if (!req.path.startsWith('/api')) {
         res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
     } else {
