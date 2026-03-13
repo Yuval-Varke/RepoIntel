@@ -2,6 +2,9 @@
   <img src="./public/repointel-brand.gif" alt="RepoIntel Logo" width="200" height="auto" />
   <h1>RepoIntel</h1>
   <p><em>AI-Powered GitHub Repository Intelligence</em></p>
+  <p>
+    <strong><a href="https://repointel-iqpf.onrender.com/" target="_blank">🌐 View Live Application</a></strong>
+  </p>
 </div>
 
 ---
