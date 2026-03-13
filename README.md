@@ -92,11 +92,16 @@ The [`server/`](./server/) directory holds the Express backend. It handles fetch
    npm install
    ```
 
-4. **Launch Application**
+4. **Launch Application for Development**
    ```bash
-   npm start
+   npm run dev
    ```
    Using `concurrently`, RepoIntel spins up both the Node API environment on Port `3001` and the Web UI environment on Vite's default port (`5173`).
 
+   *Alternatively, to build and run the consolidated production build:*
+   ```bash
+   npm run build && npm start
+   ```
+
 5. **Open Application**
-   Navigate to `http://localhost:5173` in your web browser, enter a repository like `facebook/react`, and access actionable insights!
+   Navigate to `http://localhost:5173` (if using `npm run dev`) or `http://localhost:3001` (if running the production build) in your web browser, enter a repository like `facebook/react`, and access actionable insights!
