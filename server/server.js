@@ -14,7 +14,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: false, // Disabled temporarily to allow inline styles/scripts and SimpleIcons in the frontend without complex configs
+    crossOriginResourcePolicy: false // Prevent strict browsers/adblockers from blocking same-origin or CORS static images
 }));
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:5173',

@@ -34,7 +34,7 @@ export function renderDashboard(container, state) {
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-2 transition-transform hover:scale-[1.02] duration-300">
             <div class="w-12 h-12 flex items-center justify-center">
-              <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+              <img src="/repointel-brand.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
             <div class="flex flex-col items-start -space-y-1">
               <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>

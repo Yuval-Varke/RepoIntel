@@ -7,7 +7,7 @@ export function renderLanding(container, state) {
         <div class="glass px-6 py-3 rounded-full flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-2 transition-transform hover:scale-[1.02] duration-300">
             <div class="w-12 h-12 flex items-center justify-center">
-              <img src="/logo_512x512.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+              <img src="/repointel-brand.gif" class="w-12 h-12 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
             </div>
             <div class="flex flex-col items-start -space-y-1">
               <span class="font-serif italic pl-2 text-3xl tracking-tight text-white leading-none">RepoIntel</span>
@@ -105,7 +105,7 @@ export function renderLanding(container, state) {
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div class="flex flex-col items-start gap-2 cursor-pointer group">
             <div class="flex items-center gap-2 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-              <img src="/logo_512x512.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
+              <img src="/repointel-brand.gif" class="w-6 h-6 object-contain mix-blend-lighten" alt="RepoIntel Logo" />
               <span class="font-serif italic text-lg tracking-tight text-white">RepoIntel</span>
             </div>
             <p class="text-[9px] font-mono tracking-[0.2em] uppercase text-slate-600 group-hover:text-primary transition-colors pl-6.5">From Repo to Results</p>

@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./public/logo_512x512.gif" alt="RepoIntel Logo" width="200" height="auto" />
+  <img src="./public/repointel-brand.gif" alt="RepoIntel Logo" width="200" height="auto" />
   <h1>RepoIntel</h1>
   <p><em>AI-Powered GitHub Repository Intelligence</em></p>
 </div>
