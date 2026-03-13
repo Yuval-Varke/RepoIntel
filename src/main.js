@@ -42,7 +42,7 @@ export async function analyzeRepo(repoUrl, refresh = false) {
   navigateTo('loading', { fromCache: false });
 
   try {
-    const response = await fetch(`${API_URL}/api/analyze`, {
+    const response = await fetch(`${API_URL}/api/v1/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ repoUrl }),

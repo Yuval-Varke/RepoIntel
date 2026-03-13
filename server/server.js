@@ -3,22 +3,48 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fetchRepoData } from './github.js';
 import { analyzeWithAI } from './ai.js';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(helmet());
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:5173',
+    methods: ['GET', 'POST']
+}));
 app.use(express.json());
 
-// Health check
-app.get('/api/health', (req, res) => {
+// API Rate Limiting Setup
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message: { error: 'Too many requests, please try again later.' }
+});
+
+const analyzeLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10, // Limit each IP to 10 analysis requests per hour to prevent AI quota exhaustion
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Analysis quota exceeded. Please try again later.' }
+});
+
+// Apply basic limiter to all /api/ endpoints
+app.use('/api', apiLimiter);
+
+// Health check (v1)
+app.get('/api/v1/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
-// Analyze repository endpoint
-app.post('/api/analyze', async (req, res) => {
+// Analyze repository endpoint (v1) with stricter rate limiting
+app.post('/api/v1/analyze', analyzeLimiter, async (req, res) => {
     const { repoUrl } = req.body;
 
     if (!repoUrl) {
@@ -26,9 +52,9 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     // Parse owner/repo from URL
-    const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/\?#]+)/);
+    const match = repoUrl.match(/^https?:\/\/(?:www\.)?github\.com\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\/?.*$/);
     if (!match) {
-        return res.status(400).json({ error: 'Invalid GitHub repository URL' });
+        return res.status(400).json({ error: 'Invalid GitHub repository URL format' });
     }
 
     const owner = match[1];
@@ -57,8 +83,9 @@ app.post('/api/analyze', async (req, res) => {
         });
     } catch (error) {
         console.error('SERVER ERROR during analysis:', error);
+        // Generic error response to prevent leaking internal system details
         res.status(500).json({
-            error: error.message || 'Failed to analyze repository',
+            error: 'Failed to analyze repository. Please check the URL and try again later.',
         });
     }
 });

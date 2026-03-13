@@ -372,20 +372,20 @@ export function renderDashboard(container, state) {
               <h3 class="editorial-title text-2xl mb-8">Tech Stack</h3>
               <div class="grid grid-cols-2 gap-4">
                 ${langs.slice(0, 4).map(([name]) => {
-                  let str = name.toLowerCase();
-                  if (str === 'c++') str = 'cplusplus';
-                  if (str === 'c#') str = 'csharp';
-                  if (str === 'html') str = 'html5';
-                  if (str === 'vue') str = 'vuedotjs';
-                  if (str === 'jupyter notebook') str = 'jupyter';
-                  
-                  const iconKey = str.replace(/[^a-z0-9]/g, '');
-                  
-                  let colorPath = '';
-                  if (iconKey === 'mdx') colorPath = '/f9ac00'; 
-                  else if (iconKey === 'nextdotjs' || iconKey === 'express') colorPath = '/white';
+      let str = name.toLowerCase();
+      if (str === 'c++') str = 'cplusplus';
+      if (str === 'c#') str = 'csharp';
+      if (str === 'html') str = 'html5';
+      if (str === 'vue') str = 'vuedotjs';
+      if (str === 'jupyter notebook') str = 'jupyter';
 
-                  return `
+      const iconKey = str.replace(/[^a-z0-9]/g, '');
+
+      let colorPath = '';
+      if (iconKey === 'mdx') colorPath = '/f9ac00';
+      else if (iconKey === 'nextdotjs' || iconKey === 'express') colorPath = '/white';
+
+      return `
                   <div class="flex items-center gap-3 p-3 bg-white dark:bg-zinc-900 hover:bg-zinc-800 transition-colors rounded-xl border border-zinc-200 dark:border-zinc-800">
                     <div class="w-8 h-8 flex items-center justify-center bg-zinc-800/30 rounded-lg">
                       <img src="https://cdn.simpleicons.org/${iconKey}${colorPath}" class="w-4 h-4 shadow-sm" alt="${name}" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-zinc-400 text-sm\\'>code</span>'" />
