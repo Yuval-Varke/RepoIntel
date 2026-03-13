@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { fetchRepoData } from './github.js';
 import { analyzeWithAI } from './ai.js';
 import helmet from 'helmet';
@@ -11,12 +13,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:5173',
     methods: ['GET', 'POST']
 }));
 app.use(express.json());
+
+// Serve static frontend files (Vite build output)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(process.cwd(), 'dist')));
 
 // API Rate Limiting Setup
 const apiLimiter = rateLimit({
@@ -87,6 +95,16 @@ app.post('/api/v1/analyze', analyzeLimiter, async (req, res) => {
         res.status(500).json({
             error: 'Failed to analyze repository. Please check the URL and try again later.',
         });
+    }
+});
+
+
+// SPA Fallback: Route all other non-API traffic to the index.html
+app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+        res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+    } else {
+        res.status(404).json({ error: 'API endpoint not found' });
     }
 });
 

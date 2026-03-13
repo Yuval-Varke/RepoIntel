@@ -11,7 +11,7 @@ const state = {
 };
 
 // API base URL
-const API_URL = 'http://localhost:3001';
+const API_URL = import.meta.env.PROD ? '' : 'http://localhost:3001';
 
 // Navigation
 export function navigateTo(page, data = {}) {

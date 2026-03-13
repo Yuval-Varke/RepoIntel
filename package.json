@@ -4,9 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently -k -n API,WEB -c blue,green \"nodemon server/server.js\" \"vite\"",
-    "dev": "vite",
-    "server": "node server/server.js",
+    "start": "node server/server.js",
+    "dev": "concurrently -k -n API,WEB -c blue,green \"nodemon server/server.js\" \"vite\"",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -19,6 +18,7 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",
+    "form-data": "^4.0.5",
     "helmet": "^8.1.0",
     "mermaid": "^11.12.3",
     "nodemon": "^3.1.14"
